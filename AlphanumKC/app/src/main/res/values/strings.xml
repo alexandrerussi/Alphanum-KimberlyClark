@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">AlphanumKC</string>
+    <string name="facebook_app_id">223186588305665</string>
+    <string name="fb_login_protocol_scheme">fb223186588305665</string>
+    <string name="firebase_error_login">Erro na conexão com Firebase</string>
+    <string name="erro_no_cadastro">Email e/ou senha erradas</string>
+    <string name="erro_no_login">Email e/ou senha erradas</string>
+    <string name="nome_perfil">Alexandre Russi</string>
+    <string name="email_perfil">junior.russi2013@gmail.com</string>
+    <string name="telefone_perfil">(11)98299-8094</string>
+    <string name="facebook_perfil">/alexandrerussi</string>
+    <string name="bemvindo">Bem-vindo</string>
+    <string name="nome_bemvindo">Nome</string>
+    <string name="novo_dispenser">Novo dispenser</string>
+</resources>

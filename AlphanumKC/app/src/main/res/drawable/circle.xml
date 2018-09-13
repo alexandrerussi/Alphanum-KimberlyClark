@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="270"
+    android:toDegrees="270">
+    <shape
+        android:shape="ring"
+        android:innerRadiusRatio="2.5"
+        android:thickness="15dp"
+        android:useLevel="true">
+
+        &lt;!&ndash;<solid
+            android:color="@android:color/holo_green_dark"/>&ndash;&gt;
+
+        <gradient
+            android:angle="0"
+            android:endColor="#000000"
+            android:startColor="#000000"
+            android:type="sweep"
+            android:useLevel="false" />
+
+    </shape>
+</rotate>-->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@android:id/progress">
+        <rotate
+            android:fromDegrees="270"
+            android:toDegrees="270"
+            android:pivotX="50%"
+            android:pivotY="50%" >
+            <shape
+                android:innerRadiusRatio="2.5"
+                android:shape="ring"
+                android:thicknessRatio="25.0"
+                android:thickness="15dp">
+                <gradient
+                    android:centerColor="@android:color/darker_gray"
+                    android:endColor="@android:color/darker_gray"
+                    android:startColor="@android:color/darker_gray"
+                    android:type="sweep" />
+            </shape>
+        </rotate>
+    </item>
+    <item android:id="@android:id/secondaryProgress">
+        <rotate
+            android:fromDegrees="270"
+            android:toDegrees="270"
+            android:pivotX="50%"
+            android:pivotY="50%" >
+            <shape
+                android:innerRadiusRatio="2.5"
+                android:shape="ring"
+                android:thicknessRatio="25.0"
+                android:thickness="15dp">
+                <gradient
+                    android:centerColor="@android:color/holo_green_dark"
+                    android:endColor="@android:color/holo_green_dark"
+                    android:startColor="@android:color/holo_green_dark"
+                    android:type="sweep" />
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

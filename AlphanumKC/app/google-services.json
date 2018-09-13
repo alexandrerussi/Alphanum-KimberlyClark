@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "507586084963",
+    "firebase_url": "https://kimberlyclark-d050f.firebaseio.com",
+    "project_id": "kimberlyclark-d050f",
+    "storage_bucket": "kimberlyclark-d050f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507586084963:android:d519a4e273363950",
+        "android_client_info": {
+          "package_name": "com.alphanum.plenitud.alphanumkc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507586084963-is4am3trl1tggn20vdco98c1qk6ebmie.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alphanum.plenitud.alphanumkc",
+            "certificate_hash": "c684eb01dfa882253c0253dffef7d0b77bb1e4f9"
+          }
+        },
+        {
+          "client_id": "507586084963-qfmie4765l54igm0v00hb335ad0psced.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJJc_MoiHEm1aHIxjgbiNXkY6uZ3jHz4M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507586084963-qfmie4765l54igm0v00hb335ad0psced.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507586084963:android:022f5c941aa316cf",
+        "android_client_info": {
+          "package_name": "com.kimberlyclark.alphanum.alphanumkc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507586084963-1lb95ceuhvs9rqc09hctna960gj43d9k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kimberlyclark.alphanum.alphanumkc",
+            "certificate_hash": "bd2fa6e970c86df58923fe875459f78fd512294f"
+          }
+        },
+        {
+          "client_id": "507586084963-qfmie4765l54igm0v00hb335ad0psced.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJJc_MoiHEm1aHIxjgbiNXkY6uZ3jHz4M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507586084963-qfmie4765l54igm0v00hb335ad0psced.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
