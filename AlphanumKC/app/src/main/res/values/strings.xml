@@ -12,4 +12,13 @@
     <string name="bemvindo">Bem-vindo</string>
     <string name="nome_bemvindo">Nome</string>
     <string name="novo_dispenser">Novo dispenser</string>
+    <string name="open">Abrir</string>
+    <string name="close">Fechar</string>
+    <string name="title_activity_home2">Home2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>

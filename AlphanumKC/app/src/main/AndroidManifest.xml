@@ -43,7 +43,8 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".CadastroDispenserActivity"></activity>
+        <activity android:name=".CadastroDispenserActivity" />
+        <activity android:name=".HomeActivity" />
     </application>
 
 </manifest>
