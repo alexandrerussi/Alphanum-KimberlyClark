@@ -36,6 +36,5 @@ dependencies {
     //BottomNavigation
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'com.github.rtoshiro.mflibrary:mflibrary:1.0.0'
 }
 apply plugin: 'com.google.gms.google-services'

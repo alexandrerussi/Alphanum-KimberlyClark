@@ -1,5 +1,6 @@
 package com.alphanum.plenitud.alphanumkc;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +13,6 @@ import android.widget.Toast;
 
 import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
 import com.alphanum.plenitud.alphanumkc.model.Usuarios;
-import com.github.rtoshiro.util.format.SimpleMaskFormatter;
-import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseError;
@@ -53,14 +52,7 @@ public class CadastroActivity extends AppCompatActivity {
         btnCadastrar = (Button) findViewById(R.id.btnCadastrar);
         btnVoltarCadastro = (Button) findViewById(R.id.btnVoltarCadastro);
 
-        //MASCARAS PARA EDT'S
-        SimpleMaskFormatter simpleMaskDataNasc = new SimpleMaskFormatter("NN/NN/NNNN");
-        MaskTextWatcher maskDataNasc = new MaskTextWatcher(edtDataNascCadastro, simpleMaskDataNasc);
-        edtDataNascCadastro.addTextChangedListener(maskDataNasc);
 
-        SimpleMaskFormatter simpleMaskTelefone = new SimpleMaskFormatter("(NN) NNNNN-NNNN");
-        MaskTextWatcher maskTelefone = new MaskTextWatcher(edtTelefoneCadastro, simpleMaskTelefone);
-        edtTelefoneCadastro.addTextChangedListener(maskTelefone);
 
 
         //SETANDO CLICKS BOTOES
@@ -77,15 +69,14 @@ public class CadastroActivity extends AppCompatActivity {
                 usuario.setSenhaUser(edtSenhaCadastro.getText().toString());
                 cadastrarUsuario();
 
+
             }
         });
 
         btnVoltarCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CadastroActivity.this, MainActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+               retornoInicio(CadastroActivity.this, MainActivity.class);
             }
         });
     }
@@ -107,9 +98,7 @@ public class CadastroActivity extends AppCompatActivity {
                             usuario.setIdUser(usuarioFirebase.getUid());
                             usuario.salvar();
 
-                            Intent i = new Intent(CadastroActivity.this, InicioActivity.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(i);
+                            retornoInicio(CadastroActivity.this, MainActivity.class);
 
 
                         }else{
@@ -139,5 +128,13 @@ public class CadastroActivity extends AppCompatActivity {
 
 
                 });
+    }
+
+    private void retornoInicio(Context packageContext, Class<?> cls) {
+
+        Intent i = new Intent(packageContext, cls);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+
     }
 }

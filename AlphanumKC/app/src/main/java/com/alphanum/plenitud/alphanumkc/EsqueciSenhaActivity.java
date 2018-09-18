@@ -1,5 +1,7 @@
 package com.alphanum.plenitud.alphanumkc;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +21,6 @@ public class EsqueciSenhaActivity extends AppCompatActivity {
 
     EditText edtEmailEsqueciSenha;
     Button btnEnviarEsqueciSenha, btnVoltarEsqueciSenha;
-    Usuarios usuario;
     FirebaseAuth autenticacao;
 
     @Override
@@ -43,6 +44,9 @@ public class EsqueciSenhaActivity extends AppCompatActivity {
 
                 edtEmailEsqueciSenha.setText("");
 
+                retornoInicio(EsqueciSenhaActivity.this, MainActivity.class);
+
+
             }
         });
 
@@ -62,19 +66,33 @@ public class EsqueciSenhaActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(EsqueciSenhaActivity.this,
+
+                            msg(EsqueciSenhaActivity.this,
                                     "Email para reset enviado com sucesso",
-                                    Toast.LENGTH_SHORT)
-                                    .show();
+                                    Toast.LENGTH_SHORT);
+
                         }else {
-                            Toast.makeText(EsqueciSenhaActivity.this,
+
+                            msg(EsqueciSenhaActivity.this,
                                     "Falhou",
-                                    Toast.LENGTH_SHORT)
-                                    .show();
+                                    Toast.LENGTH_SHORT);
+
 
                         }
                     }
 
                 });
+    }
+
+    private void msg(EsqueciSenhaActivity esqueciSenhaActivity, String s, int lengthShort) {
+        Toast.makeText(esqueciSenhaActivity, s, lengthShort).show();
+    }
+
+    private void retornoInicio(Context packageContext, Class<?> cls) {
+
+        Intent i = new Intent(packageContext, cls);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+
     }
 }

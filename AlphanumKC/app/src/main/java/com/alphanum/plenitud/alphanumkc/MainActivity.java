@@ -47,7 +47,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     //Variavel para Autenticação no Firebase JREM
     private FirebaseAuth firebaseAuth;
@@ -97,12 +97,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         btnFacebookLayout = (Button) findViewById(R.id.btnFacebookLayout);
         btnGoogleLayout = (Button) findViewById(R.id.btnGoogleLayout);
 
+
         //Verifica se tem login no Firebase JREM
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (edtEmailLogin.getText().toString().trim().equals("") || edtSenhaLogin.getText().toString().trim().equals("")){
-                    Toast.makeText(MainActivity.this, "Insira email e senha", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Insira email e senha", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     firebaseAuth.signInWithEmailAndPassword(edtEmailLogin.getText().toString().trim(), edtSenhaLogin.getText().toString().trim())
@@ -114,9 +115,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(i);
 
+
                                     }else{
                                         Toast.makeText(getApplicationContext(), R.string.erro_no_cadastro, Toast.LENGTH_SHORT).show();
-                                        Log.i("jrem", "erro no cadastro"+task.getException());
                                     }
                                 }
                             });
@@ -171,14 +172,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         //Conexão com Google JREM --FOI PARA O MÉTODO signIn()--
         btnGoogle = (SignInButton) findViewById(R.id.btnGoogle);
-//        btnGoogle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-//                startActivityForResult(intent, SIGN_IN_CODE);
-//
-//            }
-//        });
+
 
         //Conectando ação do SignInButton no botao estilizado
         btnGoogleLayout.setOnClickListener(new View.OnClickListener() {
@@ -297,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     }
 
-    //Metodo para tratamento de fallas na conexão com Google JREM
+    //Metodo para tratamento de falhas na conexão com Google JREM
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 

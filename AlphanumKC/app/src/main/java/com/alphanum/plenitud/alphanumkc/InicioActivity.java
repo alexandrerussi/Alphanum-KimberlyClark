@@ -62,7 +62,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 
 public class InicioActivity extends AppCompatActivity {
 
-    Button btn_sair, btnCadastrarDispenser, btnComprar_loja1, btnComprar_loja2;
+    Button btn_sair, btnCadastrarDispenser;
 
     RelativeLayout inicio_tab, produtos_tab, loja_tab, perfil_tab, inicio_cadastro_dispenser, inicio_dispenser;
 
@@ -80,6 +80,8 @@ public class InicioActivity extends AppCompatActivity {
     ArrayList<Produtos> produtos_array; //produtos que serão cadastrados ao usuario
 
     private static final int BARCODE_RECO_REQ_CODE = 200;
+
+    private static final String PATH_PRODUSER = "prodUsuario";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,7 +199,9 @@ public class InicioActivity extends AppCompatActivity {
 
 
         //String identificadorUsuarioLogado
-        // TODO Aqui vai ter q identificar o Id do usuario logado pra usar aqui em baixo no segundo child, no qual esta acessando o nó do usuario que esta cadastrados os produtos nos mesmos, ou seja, vai ter que fazer o cadastro dos produtos ligado ao usuario.
+        // TODO Aqui vai ter q identificar o Id do usuario logado pra usar aqui em baixo no segundo child,
+        // no qual esta acessando o nó do usuario que esta cadastrados os produtos nos mesmos, ou seja,
+        // vai ter que fazer o cadastro dos produtos ligado ao usuario.
         referenciaFirebase = ConfiguracaoFirebase.getFirebase()
                                 .child("prodUsuario")
                                 .child("t1e2s3t4e5");//NÓ PARA TESTE AQUI VEM O ID DO USUARIO
@@ -222,27 +226,6 @@ public class InicioActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
-        //----------------------------------------------------------------------
-
-        //LOJA
-        //TODO Fazer loja inteligente, dependendo dos produtos cadastrados aparece produtos na loja personalizados ao usuário
-        btnComprar_loja1 = (Button) findViewById(R.id.btnComprar_loja1);
-        btnComprar_loja2 = (Button) findViewById(R.id.btnComprar_loja2);
-
-        btnComprar_loja1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InicioActivity.this, "Item comprado", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btnComprar_loja2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(InicioActivity.this, "Item comprado", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -17,20 +17,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar">
 
-        <!--<Button-->
-            <!--android:id="@+id/btnSair"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="45dp"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:text="Sair"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:fontFamily="sans-serif-light"-->
-            <!--android:textSize="15sp"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:theme="@style/botaoPadrao"-->
-            <!--/>-->
-
         <RelativeLayout
             android:id="@+id/inicio_tab"
             android:layout_width="match_parent"
@@ -50,8 +36,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/btnCadastrarDispenser"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="63dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -60,7 +47,6 @@
                         android:fontFamily="sans-serif-light"
                         android:padding="5dp"
                         android:text="@string/bemvindo"
-                        android:textAlignment="center"
                         android:textSize="24sp" />
 
                     <TextView
@@ -230,103 +216,63 @@
             <RelativeLayout
                 android:id="@+id/loja1"
                 android:layout_width="180dp"
-                android:layout_height="wrap_content"
+                android:layout_height="180dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/bg_card"
                 android:elevation="5dp"
                 android:layout_alignParentLeft="true">
 
                 <ImageView
-                    android:id="@+id/img_loja_1"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:src="@drawable/plenitud_real_fit"/>
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
-                    android:id="@+id/linlay_loja1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_below="@id/img_loja_1">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:text="Plenitud® Real FIT Homem"
-                        android:layout_marginTop="10dp"/>
+                        android:text="Nome:"/>
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textSize="18dp"
-                        android:text="500 Pontos"/>
+                        android:text="Pontos:"/>
 
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnComprar_loja1"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_bg"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="Comprar"
-                    android:textColor="@color/white"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/linlay_loja1"/>
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="180dp"
-                android:layout_height="wrap_content"
+                android:layout_height="180dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/bg_card"
                 android:elevation="5dp"
                 android:layout_alignParentRight="true">
 
                 <ImageView
-                    android:id="@+id/img_loja_2"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:src="@drawable/plenitud_real_fit_mulher"/>
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
-                    android:id="@+id/linlay_loja2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_below="@id/img_loja_2">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Plenitud® Real FIT Mulher"
-                        android:textAlignment="center"
-                        android:layout_marginTop="10dp"/>
+                        android:text="Nome:"/>
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textSize="18dp"
-                        android:text="500 Pontos"/>
+                        android:text="Pontos:"/>
 
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnComprar_loja2"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_bg"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="Comprar"
-                    android:textColor="@color/white"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/linlay_loja2"/>
 
             </RelativeLayout>
 
@@ -339,10 +285,6 @@
             android:visibility="gone">
 
             <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Perfil"/>-->
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
