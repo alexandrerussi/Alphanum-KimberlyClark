@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -40,4 +41,25 @@ public class HomeActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    public boolean onNavigationItemSelected(MenuItem item){
+
+        int id = item.getItemId();
+
+        if (id == R.id.nav_conta){
+            Toast.makeText(this, "Conta", Toast.LENGTH_SHORT).show();
+        }
+        else if(id == R.id.nav_carteira){
+            Toast.makeText(this, "Carteira", Toast.LENGTH_SHORT).show();
+        }
+        else if (id == R.id.nav_loggout){
+            Toast.makeText(this, "Sair", Toast.LENGTH_SHORT).show();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
+        drawer.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
 }
