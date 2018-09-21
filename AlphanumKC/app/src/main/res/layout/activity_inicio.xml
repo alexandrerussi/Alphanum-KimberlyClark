@@ -21,7 +21,7 @@
             android:id="@+id/inicio_tab"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <RelativeLayout
                 android:id="@+id/inicio_cadastro_dispenser"
@@ -278,13 +278,13 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:id="@+id/perfil_tab"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
-            <!--<TextView-->
+            &lt;!&ndash;<TextView&ndash;&gt;
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -473,7 +473,7 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </RelativeLayout>-->
 
 
     </RelativeLayout>
