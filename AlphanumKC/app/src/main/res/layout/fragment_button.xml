@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:gravity="bottom">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/background_bottom_home">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnHomeQRCode"
+                android:layout_width="220dp"
+                android:layout_height="45dp"
+                android:background="@drawable/btn_bg_home"
+                android:fontFamily="sans-serif-light"
+                android:text="Liberar fralda"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:drawableLeft="@drawable/ic_qr_code"
+                android:paddingLeft="35dp"
+                android:paddingRight="18dp"
+                android:onClick="barcodeReco"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

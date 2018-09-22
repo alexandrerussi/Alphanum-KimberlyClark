@@ -6,6 +6,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="cinza_claro">#e2e2e2</color>
+    <color name="cinza_escuro">#101010</color>
     <color name="transparent">#00000000</color>
     <color name="gradientStart">#00ace4</color>
     <color name="gradientStop">#2ec6f7</color>
@@ -13,4 +14,30 @@
 
     <color name="facebook">#3b5998</color>
     <color name="colorSecundaria">#009ccf</color>
+
+    <color name="black_opacity">#80000000</color>
+
+    <!--
+    100% — FF
+    95% — F2
+    90% — E6
+    85% — D9
+    80% — CC
+    75% — BF
+    70% — B3
+    65% — A6
+    60% — 99
+    55% — 8C
+    50% — 80
+    45% — 73
+    40% — 66
+    35% — 59
+    30% — 4D
+    25% — 40
+    20% — 33
+    15% — 26
+    10% — 1A
+    5% — 0D
+    0% — 00
+    -->
 </resources>

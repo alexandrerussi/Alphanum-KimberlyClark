@@ -13,20 +13,25 @@
         android:id="@+id/toolbarTrans"
         layout="@layout/toolbar_transparent"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="bottom">
         
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--TODO BIEL E PARAGUAIO, COLOCAR MAPA AQUI NO FRAME, COLOCAR POR OUTRO XML, QLQR COISA FALEM CMG-->
+        </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/fragment_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         </FrameLayout>
         
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"
