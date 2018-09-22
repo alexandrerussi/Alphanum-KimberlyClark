@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
 import com.alphanum.plenitud.alphanumkc.model.Dispenser;
@@ -81,7 +82,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     Dispenser dispenser = data.getValue(Dispenser.class);
 
-                    latitude = dispenser.getLatitude();
+//                    latitude = dispenser.getLatitude();
 
                 }
 
@@ -93,15 +94,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
-
-
-
-
-
-
-
-
-
     }
 
     @Override
@@ -175,5 +167,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setTrafficEnabled(true);
 
 
+    }
+
+    public void abrirQR(View view){
+        Intent qrcode = new Intent(MapsActivity.this, QRCodeActivity.class);
+        startActivity(qrcode);
     }
 }

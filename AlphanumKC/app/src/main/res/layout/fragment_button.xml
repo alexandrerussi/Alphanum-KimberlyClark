@@ -28,7 +28,7 @@
                 android:drawableLeft="@drawable/ic_qr_code"
                 android:paddingLeft="35dp"
                 android:paddingRight="18dp"
-                android:onClick="barcodeReco"/>
+                android:onClick="abrirQR"/>
 
         </LinearLayout>
 
