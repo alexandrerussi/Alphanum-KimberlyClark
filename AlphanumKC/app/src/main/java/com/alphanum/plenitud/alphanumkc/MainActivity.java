@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()){
-                                        Intent i = new Intent(MainActivity.this, HomeActivity.class);
+                                        Intent i = new Intent(MainActivity.this, MapsActivity.class);
                                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(i);
 
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
-                    Intent entrar = new Intent(MainActivity.this, HomeActivity.class);
+                    Intent entrar = new Intent(MainActivity.this, MapsActivity.class);
                     entrar.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(entrar);
                 }

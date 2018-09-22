@@ -9,21 +9,21 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <include
+    <!--<include
         android:id="@+id/toolbarTrans"
-        layout="@layout/toolbar_transparent"/>
+        layout="@layout/toolbar_transparent"/>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom">
         
-        <FrameLayout
+        <!--<FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </FrameLayout>
+        </FrameLayout>-->
 
         <FrameLayout
             android:id="@+id/fragment_button"

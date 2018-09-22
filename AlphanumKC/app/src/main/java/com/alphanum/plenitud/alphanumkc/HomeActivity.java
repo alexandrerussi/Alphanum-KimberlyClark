@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -61,20 +62,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
+            /*getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapsActivity()).commit();*/
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_button, new ButtonFragment()).commit();
         }
-
-        //Importando botões
-        //btnHomeQRCode = (Button) findViewById(R.id.btnHomeQRCode);
-
-        //Setando click botões
-        /*btnHomeQRCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                barcodeReco();
-            }
-        });*/
 
     }
 
@@ -96,6 +86,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_carteira:
+                Intent mapa = new Intent(HomeActivity.this, MapsActivity.class);
+                startActivity(mapa);
                 break;
 
             case R.id.nav_loggout:
@@ -175,5 +167,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     //QR CODE CODIGO FIM
     //----------------------------------------------------
+
+
 
 }
