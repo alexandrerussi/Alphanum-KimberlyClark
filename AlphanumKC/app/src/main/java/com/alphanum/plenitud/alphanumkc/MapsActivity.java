@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -17,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.view.View;
 
 import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
@@ -24,6 +26,7 @@ import com.alphanum.plenitud.alphanumkc.model.Dispenser;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -41,6 +44,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private DrawerLayout drawerLayout;
 
+    float latitude;
+    float longitude;
+    Integer qtdAtualMaps;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +56,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
         //config toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarTrans);
@@ -69,31 +77,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_button, new ButtonFragment()).commit();
         }
 
-        float latitude;
-        float longitude;
-
-        final DatabaseReference dispenserLatLon = ConfiguracaoFirebase.getFirebase().child("dispenser");
-
-        dispenserLatLon.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-
-                    Dispenser dispenser = data.getValue(Dispenser.class);
-
-//                    latitude = dispenser.getLatitude();
-
-                }
 
 
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
     }
 
     @Override
@@ -150,21 +137,40 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-23.4844651, -46.6301937);
+        final DatabaseReference dispenserLatLon = ConfiguracaoFirebase.getFirebase().child("dispenser");
+
+        dispenserLatLon.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                    Dispenser dispenser = data.getValue(Dispenser.class);
+
+                    latitude = dispenser.getLatitude();
+                    longitude = dispenser.getLongitude();
+                    qtdAtualMaps = dispenser.getQtdAtual();
+
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
+                            .title(data.getKey().toString())
+                            .snippet(qtdAtualMaps.toString())
+                            .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_box1)));
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
-        mMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney")
-                .snippet("snippet snippet snippet snippet snippet...")
-                .icon(bitmapDescriptorFromVector(this, R.drawable.ic_box1)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(-23.4855, -46.63103)).title("Jardim Botânico"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(-34.576, 151.598)).title("Outro Lugar"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(-34.1, 151.1)).title("Outro Lugar"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+        // Add a marker in Sydney and move the camera;
+        LatLng localUser = new LatLng(-23.4844651, -46.6301937);
+        mMap.addMarker(new MarkerOptions().position(localUser));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(localUser));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localUser, 15));
         //mMap.setMyLocationEnabled(true);
-        mMap.setTrafficEnabled(true);
+        //mMap.setTrafficEnabled(true);
 
 
     }
