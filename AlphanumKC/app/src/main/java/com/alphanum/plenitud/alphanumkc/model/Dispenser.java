@@ -16,6 +16,7 @@ public class Dispenser {
     private Integer qtdDispenserPorCem;
     private float latitude;
     private float longitude;
+    private Integer linkQr;
 
 
 
@@ -104,4 +105,12 @@ public class Dispenser {
         this.longitude = longitude;
     }
 
+
+    public Integer getLinkQr() {
+        return linkQr;
+    }
+
+    public void setLinkQr(Integer linkQr) {
+        this.linkQr = linkQr;
+    }
 }
