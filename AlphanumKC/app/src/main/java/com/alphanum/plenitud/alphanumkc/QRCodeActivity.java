@@ -87,7 +87,35 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
        final DatabaseReference resultQr = referenceQrCode.child("dispenser");
 
 
-        resultQr.addListenerForSingleValueEvent(new ValueEventListener() {
+       /* resultQr.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    if (result.toString().equals(data.getKey())) {
+                        Dispenser dispenser = data.getValue(Dispenser.class);
+                        if (dispenser.getLinkQr() == 0 ){
+
+                        resultQr.child(result.toString()).child("linkQr").setValue(1);
+
+                        msgToast("Dispenser encontrado");
+                        Intent i = new Intent(QRCodeActivity.this, MapsActivity.class) ;
+                        startActivity(i);
+                    }else {
+                            msgToast("Dispenser em uso");
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });*/
+
+
+
+        resultQr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
@@ -112,30 +140,6 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
             }
         });
-
-
-
-        /*resultQr.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot data : dataSnapshot.getChildren()){
-                    if (result.toString().equals(data.getKey())) {
-
-                        msgToast(data.getKey());
-                        break;
-                    }
-                }
-
-                msgToast("Sai do for");
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
 
 
         //TODO TRATAR O RESULTADO PARA QUE SEJA COMPARADO DENTRO DO FIREBASE
