@@ -58,6 +58,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
             if (checkPermission()) {
                 /*Toast.makeText(getApplicationContext(), "Permission already granted", Toast.LENGTH_LONG).show();*/
 
+
             } else {
                 requestPermission();
             }
@@ -133,23 +134,35 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
         DatabaseReference referenceQrCode = ConfiguracaoFirebase.getFirebase();
        final DatabaseReference resultQr = referenceQrCode.child("dispenser");
 
-        resultQr.addValueEventListener(new ValueEventListener() {
+
+        resultQr.addListenerForSingleValueEvent(new ValueEventListener() {
+            int cont1 =0;
+            int cont2= 0 ;
+            Dispenser dp = new Dispenser();
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()){
-                    if (result.toString().equals(data.getKey())) {
-                        Dispenser dispenser = data.getValue(Dispenser.class);
-                        if (dispenser.getLinkQr() == 0 ){
-
-                        resultQr.child(result.toString()).child("linkQr").setValue(1);
-
+                for (DataSnapshot data : dataSnapshot.getChildren()) {//Aqui ele pega as informações e faz iteração
+                    if (result.toString().equals(data.getKey())) {//Aqui ele compara as informações recebidas com o key do dispenser
+                        cont1 = 1;
                         msgToast("Dispenser encontrado");
-                        Intent i = new Intent(QRCodeActivity.this, MapsActivity.class) ;
-                        startActivity(i);
-                    }else {
-                            msgToast("Dispenser em uso");
+                        Dispenser dispenser = data.getValue(Dispenser.class);
+                        dp.setLinkQr(dispenser.getLinkQr());
+                    }//Ele coloca todas as informações do dispenser no objeto
+                    if (dp.getLinkQr() == 0 ){//Aqui ele compara se o link esta 0
+                            cont2 = 1;
+                            msgToast("Produto pago");
+                            Intent i = new Intent(QRCodeActivity.this, MapsActivity.class) ;
+                            startActivity(i);
+
+                       resultQr.child(result.toString()).child("linkQr").setValue(1);//Aqui ele altera a condição para "em uso"
                         }
                     }
+                if (cont1 == 0){//Se ele não encontrou o codigo do QR na base, exibe a mensagem abaixo
+                    msgToast("Dispenser não encontrado");
+                }
+
+                if (cont2 == 0){//Se ele esta em uso, exibe a mensagem abaixo
+                    msgToast("Dispenser em uso");
                 }
             }
 
@@ -159,9 +172,6 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
             }
         });
 
-
-        //TODO TRATAR O RESULTADO PARA QUE SEJA COMPARADO DENTRO DO FIREBASE
-       // Toast.makeText(getApplicationContext(), result.getText(), Toast.LENGTH_SHORT).show();
         mScannerView.resumeCameraPreview(this);
     }
 
@@ -184,9 +194,9 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     if (cameraAccepted){
-                        /*Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();*/
+                        //msgToast("Permission Granted, Now you can access camera");
                     }else {
-                        /*Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access and camera", Toast.LENGTH_LONG).show();*/
+                        //msgToast("Permission Denied, You cannot access and camera");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (shouldShowRequestPermissionRationale(CAMERA)) {
                                 showMessageOKCancel("You need to allow access to both the permissions",
