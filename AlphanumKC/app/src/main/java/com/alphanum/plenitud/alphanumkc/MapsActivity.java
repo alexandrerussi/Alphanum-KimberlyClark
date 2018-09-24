@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +20,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.view.View;
 
@@ -53,7 +57,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -61,6 +65,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //config toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarTrans);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("");
+        toolbar.setSubtitle("");
+        toolbar.setTitleTextColor(00000000);
+        toolbar.setSubtitleTextColor(00000000);
+
+        toolbar.bringToFront();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
@@ -72,14 +82,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         if (savedInstanceState == null) {
-            /*getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapsActivity()).commit();*/
+            /*getSupportFragmentManager().beginTransaction().replace(R.id.fragment_toolbar, new ToolbarTransparente()).commit();*/
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_button, new ButtonFragment()).commit();
         }
-
-
-
-
 
     }
 

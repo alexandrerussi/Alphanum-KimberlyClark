@@ -17,6 +17,10 @@
 
     <color name="black_opacity">#80000000</color>
 
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="viewfinder_laser">#00cc0000</color>
+    <color name="viewfinder_border">#ff009ccf</color>
+
     <!--
     100% — FF
     95% — F2

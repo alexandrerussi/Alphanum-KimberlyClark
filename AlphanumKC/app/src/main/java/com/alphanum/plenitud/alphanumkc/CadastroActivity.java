@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
 import com.alphanum.plenitud.alphanumkc.model.Usuarios;
+import com.github.rtoshiro.util.format.SimpleMaskFormatter;
+import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseError;
@@ -33,9 +35,6 @@ public class CadastroActivity extends AppCompatActivity {
     Button btnCadastrar, btnVoltarCadastro;
     Usuarios usuario;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +51,14 @@ public class CadastroActivity extends AppCompatActivity {
         btnCadastrar = (Button) findViewById(R.id.btnCadastrar);
         btnVoltarCadastro = (Button) findViewById(R.id.btnVoltarCadastro);
 
+        //MASCARAS PARA EDT'S
+        SimpleMaskFormatter simpleMaskDataNasc = new SimpleMaskFormatter("NN/NN/NNNN");
+        MaskTextWatcher maskDataNasc = new MaskTextWatcher(edtDataNascCadastro, simpleMaskDataNasc);
+        edtDataNascCadastro.addTextChangedListener(maskDataNasc);
 
-
+        SimpleMaskFormatter simpleMaskTelefone = new SimpleMaskFormatter("(NN) NNNNN-NNNN");
+        MaskTextWatcher maskTelefone = new MaskTextWatcher(edtTelefoneCadastro, simpleMaskTelefone);
+        edtTelefoneCadastro.addTextChangedListener(maskTelefone);
 
         //SETANDO CLICKS BOTOES
 

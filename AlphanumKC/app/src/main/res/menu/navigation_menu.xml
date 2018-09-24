@@ -12,7 +12,7 @@
         android:title="Minha carteira"/>
 
     <item android:id="@+id/nav_loggout"
-        android:icon="@drawable/ic_shutdown"
+        android:icon="@drawable/ic_exit"
         android:title="Sair"/>
 
 </menu>
