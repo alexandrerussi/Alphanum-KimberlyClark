@@ -37,6 +37,8 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class QRCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
 
+    private int teste = 0;
+
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView mScannerView;
 
@@ -132,39 +134,65 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     public void handleResult(final Result result) {
 
         DatabaseReference referenceQrCode = ConfiguracaoFirebase.getFirebase();
-       final DatabaseReference resultQr = referenceQrCode.child("dispenser");
+       final DatabaseReference resultQr = referenceQrCode.child("dispenser").child(result.toString());
+
+
 
 
         resultQr.addListenerForSingleValueEvent(new ValueEventListener() {
-            int cont1 =0;
-            int cont2= 0 ;
-            Dispenser dp = new Dispenser();
+
+
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {//Aqui ele pega as informações e faz iteração
-                    if (result.toString().equals(data.getKey())) {//Aqui ele compara as informações recebidas com o key do dispenser
-                        cont1 = 1;
+                Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
+
+                switch (dispenser.getLinkQr()){
+                    case 0:
+                        if(teste == 0) {
+                            msgToast("Produto pago");
+                            Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
+                            startActivity(i);
+                            resultQr.child("linkQr").setValue(1);
+                            teste = 1;
+                        }
+                        break;
+                    case 1:
+                        if(teste == 0) {
+                            msgToast("Produto em uso");
+                        }
+                        break;
+                    default:
+                        msgToast("Deu merda");
+                }
+
+            }
+
+               /* if (result.toString().equals(dataSnapshot.getKey())) {//Aqui ele compara as informações recebidas com o key do dispenser
                         msgToast("Dispenser encontrado");
                         Dispenser dispenser = data.getValue(Dispenser.class);
                         dp.setLinkQr(dispenser.getLinkQr());
-                    }//Ele coloca todas as informações do dispenser no objeto
-                    if (dp.getLinkQr() == 0 ){//Aqui ele compara se o link esta 0
-                            cont2 = 1;
+
+                        if (dp.getLinkQr() == 0 ){//Aqui ele compara se o link esta 0
                             msgToast("Produto pago");
                             Intent i = new Intent(QRCodeActivity.this, MapsActivity.class) ;
                             startActivity(i);
-
-                       resultQr.child(result.toString()).child("linkQr").setValue(1);//Aqui ele altera a condição para "em uso"
-                        }
-                    }
-                if (cont1 == 0){//Se ele não encontrou o codigo do QR na base, exibe a mensagem abaixo
+                            resultQr.child(result.toString()).child("linkQr").setValue(1);//Aqui ele altera a condição para "em uso"
+                            break;
+                        }else{
+                            msgToast("Dispenser em uso");
+                            break;
+                        }*/
+                    //}//Ele coloca todas as informações do dispenser no objeto
+                //}
+                /*if (cont1 == 0){//Se ele não encontrou o codigo do QR na base, exibe a mensagem abaixo
                     msgToast("Dispenser não encontrado");
                 }
 
                 if (cont2 == 0){//Se ele esta em uso, exibe a mensagem abaixo
                     msgToast("Dispenser em uso");
-                }
-            }
+                }*/
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
