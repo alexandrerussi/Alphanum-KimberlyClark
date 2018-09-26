@@ -17,6 +17,7 @@ public class Usuarios {
     private String senhaUser;
     private Double latitudeUser;
     private Double longitudeUser;
+    private Double saldo;
 
 
     public void salvar(){
@@ -109,5 +110,13 @@ public class Usuarios {
 
     public void setLongitudeUser(Double longitudeUser) {
         this.longitudeUser = longitudeUser;
+    }
+
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 }

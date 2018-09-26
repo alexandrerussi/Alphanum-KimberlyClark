@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_my_location_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_attach_money_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,9 +28,12 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="4285f4" />
-                            <entry key="outputName" value="ic_my_location" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="height" value="50" />
+                            <entry key="outputName" value="ic_money" />
+                            <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\Junior" />
+                            <entry key="width" value="50" />
                           </map>
                         </option>
                       </PersistentState>

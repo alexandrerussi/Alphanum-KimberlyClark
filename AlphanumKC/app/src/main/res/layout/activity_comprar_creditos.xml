@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ComprarCreditosActivity">
+
+    <include
+        android:id="@+id/toolBarComprarCreditos"
+        layout="@layout/toolbar_no_elevation"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/grad_bg"
+        android:layout_below="@+id/toolBarComprarCreditos">
+
+        <RelativeLayout
+            android:id="@+id/header_comprar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/texto_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Compre créditos para poder usar qualquer dispenser na sua cidade!"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-light"
+                android:textSize="18sp"
+                android:layout_margin="35dp"/>
+
+            <EditText
+                android:id="@+id/edt_temporario"
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:background="@drawable/et_bg"
+                android:layout_below="@+id/texto_header"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header_comprar">
+
+            <Button
+                android:id="@+id/btn_recarregar"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_bg"
+                android:layout_centerHorizontal="true"
+                android:text="Recarregar"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-light"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
