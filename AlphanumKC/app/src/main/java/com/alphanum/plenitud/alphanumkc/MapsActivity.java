@@ -54,6 +54,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,6 +75,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+    private static final String PATH_USER = "usuarios";
+    private static final String PATH_LATITUDE_USER = "latitudeUser";
+    private static final String PATH_LONGITUDE_USER = "longitudeUser";
+    private static final String PATH_DISPENSER = "dispenser";
     private DrawerLayout drawerLayout;
 
     float latitude;
@@ -81,10 +86,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Integer qtdAtualMaps;
     private GoogleApiClient mGoogleApiClient;
 
-    Double latitudeUser;
-    Double longitudeUser;
+    FirebaseUser userFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
+
+    DatabaseReference referenceFirebase = ConfiguracaoFirebase.getFirebase();
 
     private LocationRequest mLocationRequest;
+
+    private GoogleMap mMap, mMapUser;
 
 
     @Override
@@ -129,7 +137,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onResume() {
         super.onResume();
 
-        if(mGoogleApiClient != null && mGoogleApiClient.isConnected()){
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             startLocationUpdate();
 
         }
@@ -139,7 +147,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onPause() {
         super.onPause();
 
-        if (mGoogleApiClient != null){
+        if (mGoogleApiClient != null) {
             stopLocationUpdate();
         }
     }
@@ -181,7 +189,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return true;
     }
 
-    private GoogleMap mMap;
+
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
         Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_box1);
@@ -198,27 +206,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
-
-        final DatabaseReference dispenserLatLon = ConfiguracaoFirebase.getFirebase().child("dispenser");
-
-        dispenserLatLon.addValueEventListener(new ValueEventListener() {
+        referenceFirebase.child(PATH_DISPENSER).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
 
                     Dispenser dispenser = data.getValue(Dispenser.class);
+                        latitude = dispenser.getLatitude();
+                        longitude = dispenser.getLongitude();
+                        qtdAtualMaps = dispenser.getQtdAtual();
 
-                    latitude = dispenser.getLatitude();
-                    longitude = dispenser.getLongitude();
-                    qtdAtualMaps = dispenser.getQtdAtual();
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
+                                .title(data.getKey())
+                                .snippet(qtdAtualMaps.toString())
+                                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_box1)));
+                    }
 
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
-                            .title(data.getKey().toString())
-                            .snippet(qtdAtualMaps.toString())
-                            .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_box1)));
-                }
             }
 
             @Override
@@ -228,33 +234,29 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-        DatabaseReference referenceFirebase = ConfiguracaoFirebase.getFirebase();
-        DatabaseReference teste1 = referenceFirebase.child("usuarios").child("ROrUcl5EhCZ1IkmW5oLj4FhM5LO2");
 
-        teste1.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference userReference = referenceFirebase.child(PATH_USER).child(userFirebase.getUid());
+
+        mMapUser = googleMap;
+
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuarios user = dataSnapshot.getValue(Usuarios.class);
 
-                Double latitudeT = user.getLatitudeUser();
-                Double longitudeT = user.getLongitudeUser();
-
                 if (checkLocationPermission()) {
                     callConnection();
-                    LatLng localUser = new LatLng(latitudeT, longitudeT);
-                    mMap.addMarker(new MarkerOptions().position(localUser)).setIcon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_my_location));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(localUser));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localUser, 14));
-
-
-                } else {
+                    LatLng localUser = new LatLng(user.getLatitudeUser(), user.getLongitudeUser());
+                    mMapUser.addMarker(new MarkerOptions().position(localUser));//.setIcon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_my_location));
+                    mMapUser.moveCamera(CameraUpdateFactory.newLatLng(localUser));
+                    mMapUser.moveCamera(CameraUpdateFactory.newLatLngZoom(localUser, 14));
+              } else {
                     requestPermission();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
@@ -316,39 +318,35 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void startLocationUpdate() {
         if (checkLocationPermission()) {
             initLocationRequest();
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
-                    mLocationRequest,
-                    MapsActivity.this);
-
+            LocationServices.FusedLocationApi
+                    .requestLocationUpdates(mGoogleApiClient, mLocationRequest,MapsActivity.this);
         } else {
             requestPermission();
         }
     }
 
     private void stopLocationUpdate() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, MapsActivity.this);
+        LocationServices.FusedLocationApi
+                .removeLocationUpdates(mGoogleApiClient, MapsActivity.this);
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
         if (checkLocationPermission()) {
-
             Location l = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
             if (l != null) {
-                //TODO melhorar esta parte do codigo para automatizar de acordo ao usuario
-                DatabaseReference referenceFirebase = ConfiguracaoFirebase.getFirebase();
-                referenceFirebase.child("usuarios").child("ROrUcl5EhCZ1IkmW5oLj4FhM5LO2").child("latitudeUser").setValue(l.getLatitude());
-                referenceFirebase.child("usuarios").child("ROrUcl5EhCZ1IkmW5oLj4FhM5LO2").child("longitudeUser").setValue(l.getLongitude());
-            }
+                DatabaseReference userReferenceFirebase = ConfiguracaoFirebase
+                        .getFirebase()
+                        .child(PATH_USER)
+                        .child(userFirebase.getUid());
 
+                userReferenceFirebase.child(PATH_LATITUDE_USER).setValue(l.getLatitude());
+                userReferenceFirebase.child(PATH_LONGITUDE_USER).setValue(l.getLongitude());
+            }
         } else {
             requestPermission();
         }
-
         startLocationUpdate();
-
     }
 
     @Override
