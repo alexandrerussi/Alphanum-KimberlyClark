@@ -35,7 +35,7 @@ import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class QRCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
+public class QRCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private int teste = 0;
 
@@ -72,12 +72,11 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
         btn_flash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (estadoCamera == 0){
+                if (estadoCamera == 0) {
                     mScannerView.setFlash(true);
                     estadoCamera = 1;
                     btn_flash.setImageResource(R.drawable.ic_highlight_off_black_24dp);
-                }
-                else if (estadoCamera == 1){
+                } else if (estadoCamera == 1) {
                     mScannerView.setFlash(false);
                     estadoCamera = 0;
                     btn_flash.setImageResource(R.drawable.ic_highlight_black_24dp);
@@ -108,7 +107,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
             if (checkPermission()) {
-                if(mScannerView == null) {
+                if (mScannerView == null) {
                     mScannerView = new ZXingScannerView(this);
                     RelativeLayout rl = (RelativeLayout) findViewById(R.id.relative_scan_take_single);
                     rl.addView(mScannerView);
@@ -134,65 +133,41 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     public void handleResult(final Result result) {
 
         DatabaseReference referenceQrCode = ConfiguracaoFirebase.getFirebase();
-       final DatabaseReference resultQr = referenceQrCode.child("dispenser").child(result.toString());
-
-
+        final DatabaseReference resultQr = referenceQrCode.child("dispenser").child(result.toString());
 
 
         resultQr.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
+                try {
+                    switch (dispenser.getLinkQr()) {
+                        case 0:
+                            if (teste == 0) {
+                                msgToast("Produto pago");
+                                Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
+                                startActivity(i);
+                                resultQr.child("linkQr").setValue(1);
+                                teste = 1;
+                            }
+                            break;
+                        case 1:
+                            if (teste == 0) {
+                                msgToast("Produto em uso");
+                            }
+                            break;
+                        default:
+                            msgToast("Deu merda");
+                    }
 
-                switch (dispenser.getLinkQr()){
-                    case 0:
-                        if(teste == 0) {
-                            msgToast("Produto pago");
-                            Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
-                            startActivity(i);
-                            resultQr.child("linkQr").setValue(1);
-                            teste = 1;
-                        }
-                        break;
-                    case 1:
-                        if(teste == 0) {
-                            msgToast("Produto em uso");
-                        }
-                        break;
-                    default:
-                        msgToast("Deu merda");
+                } catch (Exception ex){
+                    Log.i("Error", ex.toString());
+                    msgToast("Dispenser não registrado");
                 }
 
             }
-
-               /* if (result.toString().equals(dataSnapshot.getKey())) {//Aqui ele compara as informações recebidas com o key do dispenser
-                        msgToast("Dispenser encontrado");
-                        Dispenser dispenser = data.getValue(Dispenser.class);
-                        dp.setLinkQr(dispenser.getLinkQr());
-
-                        if (dp.getLinkQr() == 0 ){//Aqui ele compara se o link esta 0
-                            msgToast("Produto pago");
-                            Intent i = new Intent(QRCodeActivity.this, MapsActivity.class) ;
-                            startActivity(i);
-                            resultQr.child(result.toString()).child("linkQr").setValue(1);//Aqui ele altera a condição para "em uso"
-                            break;
-                        }else{
-                            msgToast("Dispenser em uso");
-                            break;
-                        }*/
-                    //}//Ele coloca todas as informações do dispenser no objeto
-                //}
-                /*if (cont1 == 0){//Se ele não encontrou o codigo do QR na base, exibe a mensagem abaixo
-                    msgToast("Dispenser não encontrado");
-                }
-
-                if (cont2 == 0){//Se ele esta em uso, exibe a mensagem abaixo
-                    msgToast("Dispenser em uso");
-                }*/
-
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -208,7 +183,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     }
 
     private boolean checkPermission() {
-        return ( ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA ) == PackageManager.PERMISSION_GRANTED);
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
     }
 
     private void requestPermission() {
@@ -221,9 +196,9 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                 if (grantResults.length > 0) {
 
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (cameraAccepted){
+                    if (cameraAccepted) {
                         //msgToast("Permission Granted, Now you can access camera");
-                    }else {
+                    } else {
                         //msgToast("Permission Denied, You cannot access and camera");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (shouldShowRequestPermissionRationale(CAMERA)) {
@@ -255,11 +230,11 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                 .show();
     }
 
-    public void fecharDigitaQR(View view){
+    public void fecharDigitaQR(View view) {
         fragment_digit_qr.setVisibility(View.GONE);
     }
 
-    public void enviarCodigo(View view){
+    public void enviarCodigo(View view) {
         Toast.makeText(this, "Enviado", Toast.LENGTH_SHORT).show();
         //TODO ENVIAR CODIGO DE QR CODE, senha como quiserem chamar
     }

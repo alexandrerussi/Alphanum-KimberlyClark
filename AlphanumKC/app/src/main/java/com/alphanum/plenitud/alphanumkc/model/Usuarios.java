@@ -15,6 +15,9 @@ public class Usuarios {
     private String pontosUser;
     private String telefoneUser;
     private String senhaUser;
+    private Double latitudeUser;
+    private Double longitudeUser;
+
 
     public void salvar(){
         DatabaseReference referenceFirebase = ConfiguracaoFirebase.getFirebase();
@@ -90,5 +93,21 @@ public class Usuarios {
 
     public void setSenhaUser(String senhaUser) {
         this.senhaUser = senhaUser;
+    }
+
+    public Double getLatitudeUser() {
+        return latitudeUser;
+    }
+
+    public void setLatitudeUser(Double latitudeUser) {
+        this.latitudeUser = latitudeUser;
+    }
+
+    public Double getLongitudeUser() {
+        return longitudeUser;
+    }
+
+    public void setLongitudeUser(Double longitudeUser) {
+        this.longitudeUser = longitudeUser;
     }
 }
