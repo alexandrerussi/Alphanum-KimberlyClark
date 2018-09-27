@@ -24,7 +24,7 @@ public class ComprarCreditosActivity extends AppCompatActivity {
 
     private Button btn_recarregar;
     private EditText edt_temporario;
-    public Double saldoNovo = 0.0;
+    private Double saldoNovo = 0.0;
 
     private RadioGroup radioGroup;
     private RadioButton radioButton;
@@ -53,37 +53,33 @@ public class ComprarCreditosActivity extends AppCompatActivity {
 
         /*edt_temporario = (EditText) findViewById(R.id.edt_temporario);*/
 
-        btn_recarregar = (Button) findViewById(R.id.btn_recarregar);
-        btn_recarregar.setOnClickListener(new View.OnClickListener() {
+
+        //Recuperando valor credito a ser debitado
+        final int radioId = radioGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(radioId);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.radio_5:
+                        saldoNovo = 5.0;
+                        break;
 
-                //Recuperando valor credito a ser debitado
-                int radioId = radioGroup.getCheckedRadioButtonId();
-                radioButton = findViewById(radioId);
+                    case R.id.radio_10:
+                        saldoNovo = 10.0;
+                        break;
 
-                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        switch (checkedId){
-                            case R.id.radio_5:
-                                saldoNovo = 5.0;
-                                break;
+                    case R.id.radio_25:
+                        saldoNovo = 25.0;
+                        break;
 
-                            case R.id.radio_10:
-                                saldoNovo = 10.0;
-                                break;
-
-                            case R.id.radio_25:
-                                saldoNovo = 25.0;
-                                break;
-
-                            case R.id.radio_50:
-                                saldoNovo = 50.0;
-                                break;
-                        }
-                    }
-                });
+                    case R.id.radio_50:
+                        saldoNovo = 50.0;
+                        break;
+                }
+            }
+        });
 
                 /*if (!saldoText.isEmpty()){
                     try {
@@ -95,6 +91,14 @@ public class ComprarCreditosActivity extends AppCompatActivity {
                     }
                 }*/
 
+
+        btn_recarregar = (Button) findViewById(R.id.btn_recarregar);
+        btn_recarregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
                 //Verificando saldo
                 userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -102,9 +106,8 @@ public class ComprarCreditosActivity extends AppCompatActivity {
                         usuario = dataSnapshot.getValue(Usuarios.class);
                         Double saldo = usuario.getSaldo();
 
-                        saldoNovo = 12.0;
+                        saldo += saldoNovo;
 
-                        saldo = saldoNovo + saldo;
                         usuario.setSaldo(saldo);
 
                         userReference.child("saldo").setValue(usuario.getSaldo());

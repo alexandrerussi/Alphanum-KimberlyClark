@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
 
@@ -98,6 +99,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private LocationRequest mLocationRequest;
 
+    private NavigationView navigationView;
+
+    private Usuarios usuario;
+
     private GoogleMap mMap, mMapUser;
 
 
@@ -129,9 +134,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                usuario = dataSnapshot.getValue(Usuarios.class);
+
+
+                View header = navigationView.getHeaderView(0);
+                TextView txtNavName = (TextView) header.findViewById(R.id.txt_nav_header_nome);
+                txtNavName.setText(usuario.getNomeUser());
+
+                TextView txtNavEmail = (TextView) header.findViewById(R.id.txt_nav_header_email);
+                txtNavEmail.setText(usuario.getEmailUser());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_button, new ButtonFragment()).commit();
@@ -146,7 +170,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             startLocationUpdate();
-
         }
     }
 

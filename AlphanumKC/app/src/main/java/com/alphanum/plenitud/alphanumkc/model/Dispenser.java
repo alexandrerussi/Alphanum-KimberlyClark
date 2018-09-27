@@ -17,6 +17,7 @@ public class Dispenser {
     private float latitude;
     private float longitude;
     private Integer linkQr;
+    private Integer codigoDisp;
 
 
 
@@ -112,5 +113,13 @@ public class Dispenser {
 
     public void setLinkQr(Integer linkQr) {
         this.linkQr = linkQr;
+    }
+
+    public Integer getCodigoDisp() {
+        return codigoDisp;
+    }
+
+    public void setCodigoDisp(Integer codigoDisp) {
+        this.codigoDisp = codigoDisp;
     }
 }

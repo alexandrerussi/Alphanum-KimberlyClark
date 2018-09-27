@@ -239,4 +239,58 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
         Toast.makeText(this, "Enviado", Toast.LENGTH_SHORT).show();
         //TODO ENVIAR CODIGO DE QR CODE, senha como quiserem chamar
     }
+
+
+/*
+        DatabaseReference referenceQrCode = ConfiguracaoFirebase.getFirebase();
+        final DatabaseReference resultQr = referenceQrCode.child("dispenser");
+
+
+        resultQr.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Dispenser dispenser = data.getValue(Dispenser.class);
+
+                    if(dispenser.getCodigoDisp() == )
+                    try {
+                        switch (dispenser.getCodigoDisp()) {
+                            case 0:
+                                if (teste == 0) {
+                                    msgToast("Produto pago");
+                                    Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
+                                    startActivity(i);
+                                    resultQr.child("linkQr").setValue(1);
+                                    teste = 1;
+                                }
+                                break;
+                            case 1:
+                                if (teste == 0) {
+                                    msgToast("Produto em uso");
+                                }
+                                break;
+                            default:
+                                msgToast("Deu merda");
+                        }
+
+                    } catch (Exception ex) {
+                        Log.i("Error", ex.toString());
+                        msgToast("Dispenser não registrado");
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mScannerView.resumeCameraPreview(this);
+    }
+    }*/
 }
