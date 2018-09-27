@@ -40,7 +40,9 @@
                 android:background="@drawable/et_bg"
                 android:layout_below="@+id/texto_header"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp"
+                android:inputType="number"
+                android:padding="10dp"/>
 
         </RelativeLayout>
 
