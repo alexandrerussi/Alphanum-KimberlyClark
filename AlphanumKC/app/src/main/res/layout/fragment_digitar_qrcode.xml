@@ -45,11 +45,12 @@
                 android:background="@drawable/edt_bg_edit_qr"
                 android:fontFamily="sans-serif-light"
                 android:textSize="16sp"
-                android:textAllCaps="true"
                 android:textColor="@color/black"
+                android:textCursorDrawable="@color/black"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:inputType="number"/>
 
             <Button
                 android:id="@+id/btn_enviarCodigo"

@@ -32,17 +32,55 @@
                 android:fontFamily="sans-serif-light"
                 android:textSize="18sp"
                 android:layout_margin="35dp"/>
+            
+            <RadioGroup
+                android:id="@+id/rdg_creditos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/texto_header"
+                android:layout_centerInParent="true">
 
-            <EditText
+                <RadioButton
+                    android:id="@+id/radio_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="R$ 5,00"
+                    android:onClick="checkRadioButton"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/radio_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="R$ 10,00"
+                    android:onClick="checkRadioButton"/>
+
+                <RadioButton
+                    android:id="@+id/radio_25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="R$ 25,00"
+                    android:onClick="checkRadioButton"/>
+
+                <RadioButton
+                    android:id="@+id/radio_50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="R$ 50,00"
+                    android:onClick="checkRadioButton"/>
+
+            </RadioGroup>
+
+            <!--<EditText
                 android:id="@+id/edt_temporario"
                 android:layout_width="220dp"
                 android:layout_height="50dp"
                 android:background="@drawable/et_bg"
-                android:layout_below="@+id/texto_header"
+                android:layout_below="@+id/rdg_creditos"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
                 android:inputType="number"
-                android:padding="10dp"/>
+                android:padding="10dp"/>-->
 
         </RelativeLayout>
 

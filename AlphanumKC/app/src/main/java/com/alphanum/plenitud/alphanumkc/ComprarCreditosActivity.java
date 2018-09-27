@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
@@ -21,7 +23,10 @@ public class ComprarCreditosActivity extends AppCompatActivity {
 
     private Button btn_recarregar;
     private EditText edt_temporario;
-    private Double saldoNovo;
+    public Double saldoNovo = 0.0;
+
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
 
     DatabaseReference referenceFirebase = ConfiguracaoFirebase.getFirebase();
     DatabaseReference usuarioReferencia = referenceFirebase.child("usuarios");
@@ -41,18 +46,43 @@ public class ComprarCreditosActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        edt_temporario = (EditText) findViewById(R.id.edt_temporario);
-        /*saldoNovo = Double.parseDouble(edt_temporario.getText().toString());*/
+        radioGroup = (RadioGroup) findViewById(R.id.rdg_creditos);
+
+        /*edt_temporario = (EditText) findViewById(R.id.edt_temporario);*/
 
         btn_recarregar = (Button) findViewById(R.id.btn_recarregar);
         btn_recarregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //Recuperando valor saldo a mais activity
-                String saldoText = edt_temporario.getText().toString();
+                //Recuperando valor credito a ser debitado
+                int radioId = radioGroup.getCheckedRadioButtonId();
+                radioButton = findViewById(radioId);
 
-                if (!saldoText.isEmpty()){
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        switch (checkedId){
+                            case R.id.radio_5:
+                                saldoNovo = 5.0;
+                                break;
+
+                            case R.id.radio_10:
+                                saldoNovo = 10.0;
+                                break;
+
+                            case R.id.radio_25:
+                                saldoNovo = 25.0;
+                                break;
+
+                            case R.id.radio_50:
+                                saldoNovo = 50.0;
+                                break;
+                        }
+                    }
+                });
+
+                /*if (!saldoText.isEmpty()){
                     try {
                         saldoNovo = Double.parseDouble(saldoText);
                     }
@@ -60,7 +90,7 @@ public class ComprarCreditosActivity extends AppCompatActivity {
                         ex.printStackTrace();
                         Toast.makeText(ComprarCreditosActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
                     }
-                }
+                }*/
 
                 //Verificando saldo
                 final DatabaseReference userEspecifico = usuarioReferencia.child("Qfp6uusS7Wbt9IfWYmddyG8jzfI3");//TODO Recuperar usuario logado
@@ -70,6 +100,8 @@ public class ComprarCreditosActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         usuario = dataSnapshot.getValue(Usuarios.class);
                         Double saldo = usuario.getSaldo();
+
+                        saldoNovo = 12.0;
 
                         saldo = saldoNovo + saldo;
                         usuario.setSaldo(saldo);
@@ -99,5 +131,12 @@ public class ComprarCreditosActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void checkRadioButton(View view){
+        int radioId = radioGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(radioId);
+
+        Toast.makeText(this, "Selected Radio" + radioButton.getText(), Toast.LENGTH_SHORT).show();
     }
 }
