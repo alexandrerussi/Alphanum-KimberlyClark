@@ -3,6 +3,7 @@ package com.alphanum.plenitud.alphanumkc;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,6 +43,7 @@ import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -67,6 +70,7 @@ import java.util.concurrent.TimeUnit;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.CAMERA;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -79,6 +83,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String PATH_LATITUDE_USER = "latitudeUser";
     private static final String PATH_LONGITUDE_USER = "longitudeUser";
     private static final String PATH_DISPENSER = "dispenser";
+    private static final int REQUEST_GPS = 1;
     private DrawerLayout drawerLayout;
 
     float latitude;
@@ -87,7 +92,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleApiClient mGoogleApiClient;
 
     FirebaseUser userFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
-
+    DatabaseReference userReference = ConfiguracaoFirebase.getFirebase()
+            .child(PATH_USER).child(userFirebase.getUid());
     DatabaseReference referenceFirebase = ConfiguracaoFirebase.getFirebase();
 
     private LocationRequest mLocationRequest;
@@ -117,7 +123,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+                drawerLayout, toolbar, R.string.open, R.string.close);
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -190,8 +197,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context,
+                                                        @DrawableRes int vectorDrawableResourceId) {
         Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_box1);
         background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
@@ -207,6 +214,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        //Recuperando e mostrando os Dispensers
         mMap = googleMap;
         referenceFirebase.child(PATH_DISPENSER).addValueEventListener(new ValueEventListener() {
             @Override
@@ -215,16 +223,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
 
                     Dispenser dispenser = data.getValue(Dispenser.class);
-                        latitude = dispenser.getLatitude();
-                        longitude = dispenser.getLongitude();
-                        qtdAtualMaps = dispenser.getQtdAtual();
+                    latitude = dispenser.getLatitude();
+                    longitude = dispenser.getLongitude();
+                    qtdAtualMaps = dispenser.getQtdAtual();
 
-                        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
-                                .title(data.getKey())
-                                .snippet(qtdAtualMaps.toString())
-                                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_box1)));
-                    }
-
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
+                            .title(data.getKey())
+                            .snippet(qtdAtualMaps.toString())
+                            .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_box1)));
+                }
             }
 
             @Override
@@ -234,25 +241,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-
-        DatabaseReference userReference = referenceFirebase.child(PATH_USER).child(userFirebase.getUid());
-
+        //Recuperando e mostrando a posição do usuario
         mMapUser = googleMap;
-
-        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuarios user = dataSnapshot.getValue(Usuarios.class);
 
+
                 if (checkLocationPermission()) {
                     callConnection();
                     LatLng localUser = new LatLng(user.getLatitudeUser(), user.getLongitudeUser());
-                    mMapUser.addMarker(new MarkerOptions().position(localUser));//.setIcon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_my_location));
+                    mMapUser.addMarker(new MarkerOptions().position(localUser));
                     mMapUser.moveCamera(CameraUpdateFactory.newLatLng(localUser));
                     mMapUser.moveCamera(CameraUpdateFactory.newLatLngZoom(localUser, 14));
-              } else {
+                } else {
                     requestPermission();
                 }
+
             }
 
             @Override
@@ -262,38 +268,51 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    public boolean checkLocationPermission() {
+
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED);
+    }
+
     private void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_GPS);
     }
 
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case 1: {
-                msgToast("Operação cancelada");
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case REQUEST_GPS: {
+                if (grantResults.length > 0) {
 
-                } else {
+                    boolean gpsAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (gpsAccepted) {
+                        //msgToast("Permission Granted, Now you can access gps");
+                    } else
+                        //  msgToast("Operação cancelada");
+                        // msgToast("Permission Denied, You cannot access to gps");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
+                                showMessageOKCancel("You need to allow access to both the permissions",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{ACCESS_FINE_LOCATION},
+                                                            REQUEST_GPS);
+
+                                                }
+                                            }
+                                        });
+                                return;
+                            }
+
+                        }
 
                 }
-                return;
+
             }
+            break;
         }
-    }
-
-    public boolean checkLocationPermission() {
-        String permission = "android.permission.ACCESS_FINE_LOCATION";
-        int res = this.checkCallingOrSelfPermission(permission);
-        return (res == PackageManager.PERMISSION_GRANTED);
-    }
-
-    public void abrirQR(View view) {
-        Intent qrcode = new Intent(MapsActivity.this, QRCodeActivity.class);
-        startActivity(qrcode);
-    }
-
-    private void msgToast(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -319,7 +338,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (checkLocationPermission()) {
             initLocationRequest();
             LocationServices.FusedLocationApi
-                    .requestLocationUpdates(mGoogleApiClient, mLocationRequest,MapsActivity.this);
+                    .requestLocationUpdates(mGoogleApiClient,
+                            mLocationRequest,
+                            MapsActivity.this);
         } else {
             requestPermission();
         }
@@ -327,22 +348,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void stopLocationUpdate() {
         LocationServices.FusedLocationApi
-                .removeLocationUpdates(mGoogleApiClient, MapsActivity.this);
+                .removeLocationUpdates(mGoogleApiClient,
+                        MapsActivity.this);
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (checkLocationPermission()) {
             Location l = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            if (l != null) {
-                DatabaseReference userReferenceFirebase = ConfiguracaoFirebase
-                        .getFirebase()
-                        .child(PATH_USER)
-                        .child(userFirebase.getUid());
 
-                userReferenceFirebase.child(PATH_LATITUDE_USER).setValue(l.getLatitude());
-                userReferenceFirebase.child(PATH_LONGITUDE_USER).setValue(l.getLongitude());
+            if (l != null) {
+                userReference.child(PATH_LATITUDE_USER).setValue(l.getLatitude());
+                userReference.child(PATH_LONGITUDE_USER).setValue(l.getLongitude());
             }
+
         } else {
             requestPermission();
         }
@@ -362,6 +381,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onLocationChanged(Location location) {
 
+    }
+
+    public void abrirQR(View view) {
+        Intent qrcode = new Intent(MapsActivity.this, QRCodeActivity.class);
+        startActivity(qrcode);
+    }
+
+    private void msgToast(String s) {
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new android.support.v7.app.AlertDialog.Builder(MapsActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 }
 

@@ -2,9 +2,6 @@
     <string name="app_name">AlphanumKC</string>
     <string name="facebook_app_id">223186588305665</string>
     <string name="fb_login_protocol_scheme">fb223186588305665</string>
-    <string name="firebase_error_login">Erro na conexão com Firebase</string>
-    <string name="erro_no_cadastro">Email e/ou senha erradas</string>
-    <string name="erro_no_login">Email e/ou senha erradas</string>
     <string name="nome_perfil">Alexandre Russi</string>
     <string name="email_perfil">junior.russi2013@gmail.com</string>
     <string name="telefone_perfil">(11)98299-8094</string>
@@ -22,4 +19,13 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
+
+    //Erro
+    <string name="firebase_error_login">Erro na conexão com Firebase</string>
+    <string name="erro_na_conexao">Erro na conexão</string>
+    <string name="erro_no_login">Erro no login</string>
+    <string name="email_ou_senha_erradas">Email e/ou senha erradas</string>
+    <string name="operacao_cancelada">Operação Cancelada</string>
+    <string name="insira_email_e_senha">Insira email e senha</string>
+
 </resources>

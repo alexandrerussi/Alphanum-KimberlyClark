@@ -1,5 +1,6 @@
 package com.alphanum.plenitud.alphanumkc;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -16,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
+import com.alphanum.plenitud.alphanumkc.model.Usuarios;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -67,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private Button btnEntrar, btnCadastro, btnEsqueciSenha, btnFacebookLayout, btnGoogleLayout;
     private LoginButton btnFacebook;
 
+    private GoogleSignInAccount contaGoogle;
+
+    private Usuarios usuario;
+
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
@@ -102,8 +109,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edtEmailLogin.getText().toString().trim().equals("") || edtSenhaLogin.getText().toString().trim().equals("")){
-                    Toast.makeText(getApplicationContext(), "Insira email e senha", Toast.LENGTH_SHORT).show();
+                if (edtEmailLogin.getText().toString().trim().isEmpty() || edtSenhaLogin.getText().toString().trim().isEmpty()){
+                    msgToast(R.string.insira_email_e_senha);
                 }
                 else {
                     firebaseAuth.signInWithEmailAndPassword(edtEmailLogin.getText().toString().trim(), edtSenhaLogin.getText().toString().trim())
@@ -111,13 +118,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()){
-                                        Intent i = new Intent(MainActivity.this, MapsActivity.class);
-                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(i);
-
-
+                                        passarIntent(MainActivity.this, MapsActivity.class);
                                     }else{
-                                        Toast.makeText(getApplicationContext(), R.string.erro_no_cadastro, Toast.LENGTH_SHORT).show();
+                                        msgToast(R.string.email_ou_senha_erradas);
                                     }
                                 }
                             });
@@ -139,13 +142,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             @Override
             public void onCancel() {
-                Toast.makeText(getApplicationContext(), "Operação cancelada", Toast.LENGTH_SHORT).show();
+               msgToast(R.string.operacao_cancelada);
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.i("jremeza", "onError: "+ error);
-                Toast.makeText(getApplicationContext(), "Erro no login", Toast.LENGTH_SHORT).show();
+                msgToast(R.string.erro_no_login);
             }
         });
 
@@ -157,13 +159,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
 
-
         //Login com Google JREM
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         //Conexão com Google JREM --FOI PARA O MÉTODO signIn()--
         btnGoogle = (SignInButton) findViewById(R.id.btnGoogle);
-
 
         //Conectando ação do SignInButton no botao estilizado
         btnGoogleLayout.setOnClickListener(new View.OnClickListener() {
@@ -189,31 +188,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
-                    Intent entrar = new Intent(MainActivity.this, MapsActivity.class);
-                    entrar.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(entrar);
+                    passarIntent(MainActivity.this, MapsActivity.class);
                 }
-
             }
         };
-
-
 
         btnCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cadastro = new Intent(MainActivity.this, CadastroActivity.class);
-                startActivity(cadastro);
+                passarIntent(MainActivity.this, CadastroActivity.class);
             }
         });
-
-
 
         btnEsqueciSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent esqueciSenha = new Intent(MainActivity.this, EsqueciSenhaActivity.class);
-                startActivity(esqueciSenha);
+               passarIntent(MainActivity.this, EsqueciSenhaActivity.class);
             }
         });
     }
@@ -231,14 +221,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), R.string.firebase_error_login, Toast.LENGTH_SHORT).show();
+                    msgToast(R.string.erro_na_conexao);
                 }
 
             }
         });
     }
-
-
 
     //Tratamento de resultado Facebook JREM
     @Override
@@ -252,23 +240,53 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
+
     //Tratamento do resultado da conexão com Google JREM
     private void handleSignResult(GoogleSignInResult result) {
+
             if(result.isSuccess()){
                 firebaseAuthWithGoogle(result.getSignInAccount());
+                contaGoogle = result.getSignInAccount();
+
+               /* usuario = new Usuarios();
+                usuario.setNomeUser(contaGoogle.getDisplayName());
+                usuario.setDataNascUser("");
+                usuario.setTelefoneUser("");
+                usuario.setEmailUser(contaGoogle.getEmail());
+                usuario.setLatitudeUser(0.0);
+                usuario.setLongitudeUser(0.0);
+                usuario.salvar();*/
+
+
             }else{
-                Toast.makeText(this, "Erro no login", Toast.LENGTH_SHORT).show();
+                msgToast(R.string.erro_na_conexao);
             }
     }
 
     //Conexão Firebase com Google JREM
     private void firebaseAuthWithGoogle(GoogleSignInAccount signInAccount) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(),null);
-        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+        final AuthCredential credential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(),null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(MainActivity.this,
+                new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), R.string.firebase_error_login, Toast.LENGTH_SHORT).show();
+                if(task.isSuccessful()){
+                    FirebaseUser usuarioFirebase = task.getResult().getUser();
+
+                    usuario = new Usuarios();
+                    usuario.setIdUser(usuarioFirebase.getUid());
+                    usuario.setNomeUser(contaGoogle.getDisplayName());
+                    usuario.setDataNascUser("");
+                    usuario.setTelefoneUser("");
+                    usuario.setEmailUser(contaGoogle.getEmail());
+                    usuario.setLatitudeUser(0.0);
+                    usuario.setLongitudeUser(0.0);
+                    usuario.salvar();
+
+
+                    }else {
+                    msgToast(R.string.erro_na_conexao);
                 }
 
             }
@@ -295,5 +313,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private void msgToast(int i) {
+        Toast.makeText(getApplicationContext(), i, Toast.LENGTH_SHORT).show();
+    }
+
+    private void passarIntent(Context context, Class c){
+        Intent i = new Intent(context, c);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 }

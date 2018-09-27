@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
 import com.alphanum.plenitud.alphanumkc.model.Usuarios;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,8 +29,10 @@ public class ComprarCreditosActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private RadioButton radioButton;
 
-    DatabaseReference referenceFirebase = ConfiguracaoFirebase.getFirebase();
-    DatabaseReference usuarioReferencia = referenceFirebase.child("usuarios");
+    private static final String PATH_USER = "usuarios";
+    FirebaseUser userFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
+    DatabaseReference userReference = ConfiguracaoFirebase.getFirebase()
+            .child(PATH_USER).child(userFirebase.getUid());
     Usuarios usuario = new Usuarios();
 
     @Override
@@ -93,9 +96,7 @@ public class ComprarCreditosActivity extends AppCompatActivity {
                 }*/
 
                 //Verificando saldo
-                final DatabaseReference userEspecifico = usuarioReferencia.child("Qfp6uusS7Wbt9IfWYmddyG8jzfI3");//TODO Recuperar usuario logado
-
-                userEspecifico.addListenerForSingleValueEvent(new ValueEventListener() {
+                userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         usuario = dataSnapshot.getValue(Usuarios.class);
@@ -106,7 +107,7 @@ public class ComprarCreditosActivity extends AppCompatActivity {
                         saldo = saldoNovo + saldo;
                         usuario.setSaldo(saldo);
 
-                        userEspecifico.child("saldo").setValue(usuario.getSaldo());
+                        userReference.child("saldo").setValue(usuario.getSaldo());
 
                         Toast.makeText(ComprarCreditosActivity.this, "Créditos comprados!", Toast.LENGTH_SHORT).show();
                         ComprarCreditosActivity.this.finish();

@@ -183,7 +183,8 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     }
 
     private boolean checkPermission() {
-        return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
+        return (ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA)
+                == PackageManager.PERMISSION_GRANTED);
     }
 
     private void requestPermission() {
