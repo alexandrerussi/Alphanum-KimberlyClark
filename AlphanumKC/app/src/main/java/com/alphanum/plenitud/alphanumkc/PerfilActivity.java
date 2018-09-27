@@ -6,9 +6,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
+import com.alphanum.plenitud.alphanumkc.model.Usuarios;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 public class PerfilActivity extends AppCompatActivity {
 
     private TextView txt_nome, txt_email, txt_datanasc, txt_telefone, txt_facebook, txt_pontos_usuario;
+
+    private static final String PATH_USER = "usuarios";
+    FirebaseUser userFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
+    DatabaseReference userReference = ConfiguracaoFirebase.getFirebase()
+            .child(PATH_USER).child(userFirebase.getUid());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +52,30 @@ public class PerfilActivity extends AppCompatActivity {
         txt_facebook = (TextView) findViewById(R.id.txt_facebook);
         txt_pontos_usuario = (TextView) findViewById(R.id.txt_pontos_usuario);
 
-        //TODO Chamar campos do usuário do firebase
-        String nome = "Alexandre Russi";
-        String email = "junior.russi2013@gmail.com";
-        String dataNasc = "20/05/1999";
-        String telefone = "(11)98299-8094";
-        String facebook = "/alexandrerussssi";
+        if (userFirebase != null){
 
-        txt_nome.setText(nome);
-        txt_email.setText(email);
-        txt_datanasc.setText(dataNasc);
-        txt_telefone.setText(telefone);
-        txt_facebook.setText(facebook);
-        txt_pontos_usuario.setText(pontos.toString());
+            userReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Usuarios usuario = dataSnapshot.getValue(Usuarios.class);
+
+                    txt_nome.setText(usuario.getNomeUser());
+                    txt_email.setText(usuario.getEmailUser());
+                    txt_datanasc.setText(usuario.getDataNascUser());
+                    txt_telefone.setText(usuario.getTelefoneUser());
+                    txt_pontos_usuario.setText(usuario.getSaldo().toString());
+
+                    /*RoundedImageView image = RoundedImageView.class.cast(findViewById(R.id.img_perfil));
+                    image.setImageURI(usuario.getPhotoUser());*/
+
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
 
     }
 

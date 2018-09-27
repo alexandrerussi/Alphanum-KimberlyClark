@@ -72,6 +72,9 @@ public class CadastroActivity extends AppCompatActivity {
                 usuario.setTelefoneUser(edtTelefoneCadastro.getText().toString());
                 usuario.setEmailUser(edtEmailCadastro.getText().toString());
                 usuario.setSenhaUser(edtSenhaCadastro.getText().toString());
+                usuario.setLatitudeUser(0.0);
+                usuario.setLongitudeUser(0.0);
+                usuario.setSaldo(0.0);
                 cadastrarUsuario();
 
 
@@ -126,7 +129,7 @@ public class CadastroActivity extends AppCompatActivity {
                             }
 
                             Toast.makeText(getApplicationContext(), "Erro: " + erroCadastro, Toast.LENGTH_SHORT).show();
-                            Log.i("jrem", "Erro: "+erroCadastro);
+
                         }
 
                     }

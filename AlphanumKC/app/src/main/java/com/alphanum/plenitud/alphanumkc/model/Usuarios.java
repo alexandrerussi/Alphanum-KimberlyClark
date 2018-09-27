@@ -1,6 +1,7 @@
 package com.alphanum.plenitud.alphanumkc.model;
 
 import android.content.pm.ConfigurationInfo;
+import android.net.Uri;
 
 import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
 import com.google.firebase.database.DatabaseReference;
@@ -18,6 +19,7 @@ public class Usuarios {
     private Double latitudeUser;
     private Double longitudeUser;
     private Double saldo;
+    private Uri photoUser;
 
 
     public void salvar(){
@@ -28,7 +30,17 @@ public class Usuarios {
     public Usuarios() {
     }
 
-    public Usuarios(String idUser, String nomeUser, String dataNascUser, String emailUser, String pontosUser, String telefoneUser, String senhaUser) {
+    public Usuarios(String idUser,
+                    String nomeUser,
+                    String dataNascUser,
+                    String emailUser,
+                    String pontosUser,
+                    String telefoneUser,
+                    String senhaUser,
+                    Double latitudeUser,
+                    Double longitudeUser,
+                    Double saldo,
+                    Uri photoUser) {
         this.idUser = idUser;
         this.nomeUser = nomeUser;
         this.dataNascUser = dataNascUser;
@@ -36,6 +48,10 @@ public class Usuarios {
         this.pontosUser = pontosUser;
         this.telefoneUser = telefoneUser;
         this.senhaUser = senhaUser;
+        this.latitudeUser = latitudeUser;
+        this.longitudeUser = longitudeUser;
+        this.saldo = saldo;
+        this.photoUser = photoUser;
     }
 
     @Exclude
@@ -118,5 +134,13 @@ public class Usuarios {
 
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
+    }
+
+    public Uri getPhotoUser() {
+        return photoUser;
+    }
+
+    public void setPhotoUser(Uri photoUser) {
+        this.photoUser = photoUser;
     }
 }

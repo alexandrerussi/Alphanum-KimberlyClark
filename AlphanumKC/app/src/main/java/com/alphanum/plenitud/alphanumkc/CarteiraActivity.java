@@ -23,8 +23,6 @@ public class CarteiraActivity extends AppCompatActivity {
     private TextView txt_saldo_carteira;
     private Button btn_comprar_credito;
 
-    DatabaseReference referenceFirebase = ConfiguracaoFirebase.getFirebase();
-
     Usuarios usuario = new Usuarios();
 
     private static final String PATH_USER = "usuarios";

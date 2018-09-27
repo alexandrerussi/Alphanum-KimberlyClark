@@ -2,6 +2,9 @@ package com.alphanum.plenitud.alphanumkc;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -248,14 +251,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 firebaseAuthWithGoogle(result.getSignInAccount());
                 contaGoogle = result.getSignInAccount();
 
-               /* usuario = new Usuarios();
-                usuario.setNomeUser(contaGoogle.getDisplayName());
-                usuario.setDataNascUser("");
-                usuario.setTelefoneUser("");
-                usuario.setEmailUser(contaGoogle.getEmail());
-                usuario.setLatitudeUser(0.0);
-                usuario.setLongitudeUser(0.0);
-                usuario.salvar();*/
+
+
 
 
             }else{
@@ -282,6 +279,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     usuario.setEmailUser(contaGoogle.getEmail());
                     usuario.setLatitudeUser(0.0);
                     usuario.setLongitudeUser(0.0);
+                    usuario.setSaldo(0.0);
+                    usuario.setPhotoUser(contaGoogle.getPhotoUrl());
                     usuario.salvar();
 
 
@@ -324,4 +323,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
+
+
 }
