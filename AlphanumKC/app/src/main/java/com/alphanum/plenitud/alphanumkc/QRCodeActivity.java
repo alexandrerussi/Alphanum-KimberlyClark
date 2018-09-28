@@ -10,12 +10,14 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -46,6 +48,11 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     private int estadoCamera = 0;
 
     private FrameLayout fragment_digit_qr;
+
+    private static final String PATH_DISPENSER = "dispenser";
+
+    DatabaseReference referenceQrCode = ConfiguracaoFirebase.getFirebase();
+    final DatabaseReference resultQr = referenceQrCode.child(PATH_DISPENSER);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +92,13 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
         });
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_digit_qr, new DigitarQrCodeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_digit_qr,
+                    new DigitarQrCodeFragment()).commit();
         }
 
         btn_digitar = (ImageButton) findViewById(R.id.btn_digitar);
         fragment_digit_qr = (FrameLayout) findViewById(R.id.fragment_digit_qr);
+
 
         btn_digitar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,13 +141,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     @Override
     public void handleResult(final Result result) {
 
-        DatabaseReference referenceQrCode = ConfiguracaoFirebase.getFirebase();
-        final DatabaseReference resultQr = referenceQrCode.child("dispenser").child(result.toString());
-
-
-        resultQr.addListenerForSingleValueEvent(new ValueEventListener() {
-
-
+        resultQr.child(result.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
@@ -162,7 +165,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                             msgToast("Deu merda");
                     }
 
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     Log.i("Error", ex.toString());
                     msgToast("Dispenser não registrado");
                 }
@@ -236,52 +239,40 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     }
 
     public void enviarCodigo(View view) {
-        Toast.makeText(this, "Enviado", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Enviado", Toast.LENGTH_SHORT).show();
         //TODO ENVIAR CODIGO DE QR CODE, senha como quiserem chamar
-    }
 
+        final EditText edtDigitarQr = findViewById(R.id.edt_digitar_qr);
 
-/*
-        DatabaseReference referenceQrCode = ConfiguracaoFirebase.getFirebase();
-        final DatabaseReference resultQr = referenceQrCode.child("dispenser");
-
-
-        resultQr.addListenerForSingleValueEvent(new ValueEventListener() {
-
-
+        resultQr.child(edtDigitarQr.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Dispenser dispenser = data.getValue(Dispenser.class);
-
-                    if(dispenser.getCodigoDisp() == )
-                    try {
-                        switch (dispenser.getCodigoDisp()) {
-                            case 0:
-                                if (teste == 0) {
-                                    msgToast("Produto pago");
-                                    Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
-                                    startActivity(i);
-                                    resultQr.child("linkQr").setValue(1);
-                                    teste = 1;
-                                }
-                                break;
-                            case 1:
-                                if (teste == 0) {
-                                    msgToast("Produto em uso");
-                                }
-                                break;
-                            default:
-                                msgToast("Deu merda");
-                        }
-
-                    } catch (Exception ex) {
-                        Log.i("Error", ex.toString());
-                        msgToast("Dispenser não registrado");
+                Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
+                try {
+                    switch (dispenser.getLinkQr()) {
+                        case 0:
+                            if (teste == 0) {
+                                msgToast("Produto pago");
+                                Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
+                                startActivity(i);
+                                resultQr.child("linkQr").setValue(1);
+                                teste = 1;
+                            }
+                            break;
+                        case 1:
+                            if (teste == 0) {
+                                msgToast("Produto em uso");
+                            }
+                            break;
+                        default:
+                            msgToast("Deu merda");
                     }
 
+                } catch (Exception ex) {
+                    Log.i("Error", ex.toString());
+                    msgToast("Dispenser não registrado");
                 }
+
             }
 
             @Override
@@ -292,5 +283,4 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
         mScannerView.resumeCameraPreview(this);
     }
-    }*/
 }
