@@ -23,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 public class ComprarCreditosActivity extends AppCompatActivity {
 
     private Button btn_recarregar;
-    private EditText edt_temporario;
     private Double saldoNovo = 0.0;
 
     private RadioGroup radioGroup;
@@ -49,19 +48,15 @@ public class ComprarCreditosActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        radioGroup = (RadioGroup) findViewById(R.id.rdg_creditos);
-
-        /*edt_temporario = (EditText) findViewById(R.id.edt_temporario);*/
-
-
         //Recuperando valor credito a ser debitado
+        radioGroup = (RadioGroup) findViewById(R.id.rdg_creditos);
         final int radioId = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.radio_5:
                         saldoNovo = 5.0;
                         break;
@@ -81,22 +76,10 @@ public class ComprarCreditosActivity extends AppCompatActivity {
             }
         });
 
-                /*if (!saldoText.isEmpty()){
-                    try {
-                        saldoNovo = Double.parseDouble(saldoText);
-                    }
-                    catch(Exception ex){
-                        ex.printStackTrace();
-                        Toast.makeText(ComprarCreditosActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }*/
-
-
         btn_recarregar = (Button) findViewById(R.id.btn_recarregar);
         btn_recarregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
 
                 //Verificando saldo
@@ -127,20 +110,20 @@ public class ComprarCreditosActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == android.R.id.home){
+        if (id == android.R.id.home) {
             this.finish();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void checkRadioButton(View view){
+    public void checkRadioButton(View view) {
         int radioId = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
 
-        Toast.makeText(this, "Selected Radio" + radioButton.getText(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Selected Radio" + radioButton.getText(), Toast.LENGTH_SHORT).show();
     }
 }

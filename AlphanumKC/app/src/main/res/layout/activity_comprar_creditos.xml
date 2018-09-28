@@ -18,7 +18,7 @@
 
         <RelativeLayout
             android:id="@+id/header_comprar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
@@ -35,7 +35,7 @@
             
             <RadioGroup
                 android:id="@+id/rdg_creditos"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/texto_header"
                 android:layout_centerInParent="true">
@@ -86,7 +86,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/header_comprar">
 
             <Button
@@ -97,7 +97,8 @@
                 android:layout_centerHorizontal="true"
                 android:text="Recarregar"
                 android:textColor="@color/white"
-                android:fontFamily="sans-serif-light"/>
+                android:fontFamily="sans-serif-light"
+                android:layout_centerInParent="true"/>
 
         </RelativeLayout>
 
