@@ -87,21 +87,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int REQUEST_GPS = 1;
     private DrawerLayout drawerLayout;
 
+    Usuarios user;
+    private Usuarios usuario;
+
     float latitude;
     float longitude;
     Integer qtdAtualMaps;
     private GoogleApiClient mGoogleApiClient;
 
     FirebaseUser userFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
+    DatabaseReference referenceFirebase = ConfiguracaoFirebase.getFirebase();
     DatabaseReference userReference = ConfiguracaoFirebase.getFirebase()
             .child(PATH_USER).child(userFirebase.getUid());
-    DatabaseReference referenceFirebase = ConfiguracaoFirebase.getFirebase();
 
     private LocationRequest mLocationRequest;
 
     private NavigationView navigationView;
-
-    private Usuarios usuario;
 
     private GoogleMap mMap, mMapUser;
 
@@ -269,7 +270,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Usuarios user = dataSnapshot.getValue(Usuarios.class);
+                user = dataSnapshot.getValue(Usuarios.class);
 
 
                 if (checkLocationPermission()) {
@@ -310,6 +311,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     boolean gpsAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     if (gpsAccepted) {
                         //msgToast("Permission Granted, Now you can access gps");
+
+
                     } else
                         //  msgToast("Operação cancelada");
                         // msgToast("Permission Denied, You cannot access to gps");

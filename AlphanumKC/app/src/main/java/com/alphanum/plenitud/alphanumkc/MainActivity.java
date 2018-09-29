@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     usuario.setLatitudeUser(0.0);
                     usuario.setLongitudeUser(0.0);
                     usuario.setSaldo(0.0);
-                    usuario.setPhotoUser(contaGoogle.getPhotoUrl());
+                    //usuario.setPhotoUser(contaGoogle.getPhotoUrl());
                     usuario.salvar();
 
 

@@ -40,6 +40,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class QRCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private int teste = 0;
+    private int teste2 = 0;
 
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView mScannerView;
@@ -52,7 +53,10 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     private static final String PATH_DISPENSER = "dispenser";
 
     DatabaseReference referenceQrCode = ConfiguracaoFirebase.getFirebase();
-    final DatabaseReference resultQr = referenceQrCode.child(PATH_DISPENSER);
+    final DatabaseReference dispenserReference = referenceQrCode.child(PATH_DISPENSER);
+
+    private DatabaseReference dispenserSenha;
+    private DatabaseReference dispenserQr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +145,9 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     @Override
     public void handleResult(final Result result) {
 
-        resultQr.child(result.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+        dispenserQr = dispenserReference.child(result.toString());
+
+        dispenserQr.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
@@ -154,7 +160,8 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                                 Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
                                 startActivity(i);
                                 dispenser.setLinkQr(1);
-                                resultQr.child(result.toString()).child("linkQr").setValue(dispenser.getLinkQr());
+                                dispenserQr.child(result.toString()).child("linkQr").setValue(dispenser.getLinkQr());
+
                                 teste = 1;
                             }
                             break;
@@ -241,12 +248,14 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     }
 
     public void enviarCodigo(View view) {
-        //Toast.makeText(this, "Enviado", Toast.LENGTH_SHORT).show();
+
         //TODO ENVIAR CODIGO DE QR CODE, senha como quiserem chamar
 
         final EditText edtDigitarQr = findViewById(R.id.edt_digitar_qr);
 
-        resultQr.child(edtDigitarQr.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+        dispenserSenha =  dispenserReference.child(edtDigitarQr.getText().toString());
+
+        dispenserSenha.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
@@ -254,17 +263,17 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                 try {
                     switch (linkqr) {
                         case 0:
-                            if (teste == 0) {
+                            if (teste2 == 0) {
                                 msgToast("Produto pago");
                                 Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
                                 startActivity(i);
                                 dispenser.setLinkQr(1);
-                                resultQr.child(edtDigitarQr.toString()).child("linkQr").setValue(dispenser.getLinkQr());
-                                teste = 1;
+                                dispenserQr.child(edtDigitarQr.toString()).child("linkQr").setValue(dispenser.getLinkQr());
+                                teste2 =1;
                             }
                             break;
                         case 1:
-                            if (teste == 0) {
+                            if (teste2 == 0) {
                                 msgToast("Produto em uso");
                             }
                             break;
@@ -284,5 +293,5 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
             }
         });
-    }
+ }
 }
