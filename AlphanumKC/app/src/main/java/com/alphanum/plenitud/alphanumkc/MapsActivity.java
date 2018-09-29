@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -105,6 +106,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private NavigationView navigationView;
 
     private GoogleMap mMap, mMapUser;
+
 
 
     @Override
@@ -380,18 +382,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (checkLocationPermission()) {
-            Location l = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (checkLocationPermission()) {
+                    Location l = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-            if (l != null) {
-                userReference.child(PATH_LATITUDE_USER).setValue(l.getLatitude());
-                userReference.child(PATH_LONGITUDE_USER).setValue(l.getLongitude());
+                    if (l != null) {
+                        userReference.child(PATH_LATITUDE_USER).setValue(l.getLatitude());
+                        userReference.child(PATH_LONGITUDE_USER).setValue(l.getLongitude());
+                    }
+
+                } else {
+                    requestPermission();
+                }
+                startLocationUpdate();
             }
+        }, 5000);
 
-        } else {
-            requestPermission();
-        }
-        startLocationUpdate();
     }
 
     @Override
