@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
 import com.alphanum.plenitud.alphanumkc.model.Dispenser;
+import com.alphanum.plenitud.alphanumkc.model.Usuarios;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +44,8 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     private int teste = 0;
     private int teste2 = 0;
 
+    private Double saldo;
+
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView mScannerView;
 
@@ -57,6 +61,12 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
     private DatabaseReference dispenserSenha;
     private DatabaseReference dispenserQr;
+
+    private static final String PATH_USER = "usuarios";
+    FirebaseUser userFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
+    DatabaseReference userReference = ConfiguracaoFirebase.getFirebase()
+            .child(PATH_USER).child(userFirebase.getUid());
+    Usuarios usuario = new Usuarios();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,40 +155,68 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
     @Override
     public void handleResult(final Result result) {
 
-        dispenserQr = dispenserReference.child(result.toString());
-
-        dispenserQr.addListenerForSingleValueEvent(new ValueEventListener() {
+        //Verificando saldo
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
-                Integer linkqr = dispenser.getLinkQr();
-                try {
-                    switch (linkqr) {
-                        case 0:
-                            if (teste == 0) {
-                                msgToast("Produto pago");
-                                Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
-                                startActivity(i);
-                                dispenser.setLinkQr(1);
-                                dispenserQr.child(result.toString()).child("linkQr").setValue(dispenser.getLinkQr());
+                usuario = dataSnapshot.getValue(Usuarios.class);
+                saldo = usuario.getSaldo();
 
-                                teste = 1;
-                            }
-                            break;
-                        case 1:
-                            if (teste == 0) {
-                                msgToast("Produto em uso");
-                            }
-                            break;
-                        default:
-                            msgToast("Deu merda");
-                    }
-
-                } catch (Exception ex) {
-                    Log.i("Error", ex.toString());
-                    msgToast("Dispenser não registrado");
+                if (saldo == 0.0){
+                    Toast.makeText(QRCodeActivity.this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
                 }
+                else {
 
+                    dispenserQr = dispenserReference.child(result.toString());
+
+                    //QR CODE CAMERA
+                    dispenserQr.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
+                            Integer linkqr = dispenser.getLinkQr();
+                            try {
+                                switch (linkqr) {
+                                    case 0:
+                                        if (teste == 0) {
+                                            msgToast("Produto pago");
+
+                                            Double gasto = 5.0;
+
+                                            saldo -= gasto;
+                                            usuario.setSaldo(saldo);
+                                            userReference.child("saldo").setValue(usuario.getSaldo());  
+
+                                            Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
+                                            startActivity(i);
+                                            dispenser.setLinkQr(1);
+                                            dispenserQr.child("linkQr").setValue(dispenser.getLinkQr());
+                                            teste = 1;
+                                        }
+                                        break;
+                                    case 1:
+                                        if (teste == 0) {
+                                            msgToast("Produto em uso");
+                                        }
+                                        break;
+                                    default:
+                                        msgToast("Deu merda");
+                                }
+
+                            } catch (Exception ex) {
+                                Log.i("Error", ex.toString());
+                                msgToast("Dispenser não registrado");
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
             }
 
             @Override
@@ -186,6 +224,9 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
             }
         });
+
+
+
 
         mScannerView.resumeCameraPreview(this);
     }
@@ -253,39 +294,68 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
         final EditText edtDigitarQr = findViewById(R.id.edt_digitar_qr);
 
-        dispenserSenha =  dispenserReference.child(edtDigitarQr.getText().toString());
-
-        dispenserSenha.addListenerForSingleValueEvent(new ValueEventListener() {
+        //Verificando saldo
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
-                Integer linkqr = dispenser.getLinkQr();
-                try {
-                    switch (linkqr) {
-                        case 0:
-                            if (teste2 == 0) {
-                                msgToast("Produto pago");
-                                Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
-                                startActivity(i);
-                                dispenser.setLinkQr(1);
-                                dispenserQr.child(edtDigitarQr.toString()).child("linkQr").setValue(dispenser.getLinkQr());
-                                teste2 =1;
-                            }
-                            break;
-                        case 1:
-                            if (teste2 == 0) {
-                                msgToast("Produto em uso");
-                            }
-                            break;
-                        default:
-                            msgToast("Deu merda");
-                    }
+                usuario = dataSnapshot.getValue(Usuarios.class);
+                saldo = usuario.getSaldo();
 
-                } catch (Exception ex) {
-                    Log.i("Error", ex.toString());
-                    msgToast("Dispenser não registrado");
+                if (saldo == 0.0){
+                    Toast.makeText(QRCodeActivity.this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
                 }
+                else {
 
+                    //QR CODE DIGITAR
+                    dispenserSenha = dispenserReference.child(edtDigitarQr.getText().toString());
+
+                    dispenserSenha.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
+                            Integer linkqr = dispenser.getLinkQr();
+                            try {
+                                switch (linkqr) {
+                                    case 0:
+                                        if (teste2 == 0) {
+                                            msgToast("Produto pago");
+
+                                            Double gasto = 5.0;
+
+                                            saldo -= gasto;
+                                            usuario.setSaldo(saldo);
+                                            userReference.child("saldo").setValue(usuario.getSaldo());
+
+                                            Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
+                                            startActivity(i);
+                                            dispenser.setLinkQr(1);
+                                            dispenserSenha.child("linkQr").setValue(dispenser.getLinkQr());
+                                            teste2 = 1;
+                                        }
+                                        break;
+                                    case 1:
+                                        if (teste2 == 0) {
+                                            msgToast("Produto em uso");
+                                        }
+                                        break;
+                                    default:
+                                        msgToast("Deu merda");
+                                }
+
+                            } catch (Exception ex) {
+                                Log.i("Error", ex.toString());
+                                msgToast("Dispenser não registrado");
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
             }
 
             @Override
@@ -293,5 +363,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
             }
         });
- }
+
+
+    }
 }

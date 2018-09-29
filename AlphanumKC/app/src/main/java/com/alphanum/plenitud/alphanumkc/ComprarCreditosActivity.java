@@ -81,7 +81,6 @@ public class ComprarCreditosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 //Verificando saldo
                 userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
