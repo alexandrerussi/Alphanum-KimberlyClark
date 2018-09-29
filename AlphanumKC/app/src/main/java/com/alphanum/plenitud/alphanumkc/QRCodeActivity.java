@@ -185,7 +185,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
                                             saldo -= gasto;
                                             usuario.setSaldo(saldo);
-                                            userReference.child("saldo").setValue(usuario.getSaldo());  
+                                            userReference.child("saldo").setValue(usuario.getSaldo());
 
                                             Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
                                             startActivity(i);

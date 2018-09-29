@@ -145,4 +145,5 @@ public class CadastroActivity extends AppCompatActivity {
         startActivity(i);
 
     }
+
 }
