@@ -239,7 +239,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Recuperando e mostrando os Dispensers
         mMap = googleMap;
-        referenceFirebase.child(PATH_DISPENSER).addValueEventListener(new ValueEventListener() {
+        /*referenceFirebase.child(PATH_DISPENSER).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -262,7 +262,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
-
+*/
 
         //Recuperando e mostrando a posição do usuario
         mMapUser = googleMap;

@@ -145,14 +145,16 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
+                Integer linkqr = dispenser.getLinkQr();
                 try {
-                    switch (dispenser.getLinkQr()) {
+                    switch (linkqr) {
                         case 0:
                             if (teste == 0) {
                                 msgToast("Produto pago");
                                 Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
                                 startActivity(i);
-                                resultQr.child("linkQr").setValue(1);
+                                dispenser.setLinkQr(1);
+                                resultQr.child(result.toString()).child("linkQr").setValue(dispenser.getLinkQr());
                                 teste = 1;
                             }
                             break;
@@ -248,14 +250,16 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
+                Integer linkqr = dispenser.getLinkQr();
                 try {
-                    switch (dispenser.getLinkQr()) {
+                    switch (linkqr) {
                         case 0:
                             if (teste == 0) {
                                 msgToast("Produto pago");
                                 Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
                                 startActivity(i);
-                                resultQr.child("linkQr").setValue(1);
+                                dispenser.setLinkQr(1);
+                                resultQr.child(edtDigitarQr.toString()).child("linkQr").setValue(dispenser.getLinkQr());
                                 teste = 1;
                             }
                             break;
@@ -280,7 +284,5 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
             }
         });
-
-        mScannerView.resumeCameraPreview(this);
     }
 }
