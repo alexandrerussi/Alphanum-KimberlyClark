@@ -15,6 +15,14 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/btn_minha_localizacao"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/btn_circle_home"
+                android:src="@drawable/ic_my_location_cinza"
+                android:fontFamily="sans-serif-light"/>
+
             <Button
                 android:id="@+id/btnHomeQRCode"
                 android:layout_width="220dp"
@@ -28,7 +36,18 @@
                 android:drawableLeft="@drawable/ic_qr_code"
                 android:paddingLeft="35dp"
                 android:paddingRight="18dp"
-                android:onClick="abrirQR"/>
+                android:onClick="abrirQR"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <ImageButton
+                android:id="@+id/btn_huggies"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/btn_circle_home"
+                android:src="@drawable/ic_menu_camera"
+                android:tint="@color/cinza_escuro"
+                android:fontFamily="sans-serif-light"/>
 
         </LinearLayout>
 

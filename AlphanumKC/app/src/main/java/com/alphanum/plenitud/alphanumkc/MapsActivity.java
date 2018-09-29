@@ -56,6 +56,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -242,6 +243,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Recuperando e mostrando os Dispensers
         mMap = googleMap;
+
+
+
         /*referenceFirebase.child(PATH_DISPENSER).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -273,7 +277,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(Usuarios.class);
-
 
                 if (checkLocationPermission()) {
                     callConnection();
@@ -398,7 +401,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 startLocationUpdate();
             }
-        }, 5000);
+        }, 2500);
 
     }
 
