@@ -246,7 +246,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
         final EditText edtDigitarQr = findViewById(R.id.edt_digitar_qr);
 
-        resultQr.child(edtDigitarQr.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+        resultQr.child(edtDigitarQr.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Dispenser dispenser = dataSnapshot.getValue(Dispenser.class);
@@ -259,7 +259,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                                 Intent i = new Intent(QRCodeActivity.this, MapsActivity.class);
                                 startActivity(i);
                                 dispenser.setLinkQr(1);
-                                resultQr.child(edtDigitarQr.toString()).child("linkQr").setValue(dispenser.getLinkQr());
+                                resultQr.child(edtDigitarQr.getText().toString()).child("linkQr").setValue(dispenser.getLinkQr());
                                 teste = 1;
                             }
                             break;
