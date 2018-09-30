@@ -53,6 +53,7 @@ public class EsqueciSenhaActivity extends AppCompatActivity {
         btnVoltarEsqueciSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(EsqueciSenhaActivity.this, MainActivity.class));
                 finish();
             }
         });

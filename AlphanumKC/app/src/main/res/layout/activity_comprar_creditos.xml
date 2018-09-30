@@ -45,29 +45,44 @@
 
                 <RadioButton
                     android:id="@+id/radio_5"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/et_bg"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
                     android:text="R$ 5,00   "
                     android:onClick="checkRadioButton"/>
 
                 <RadioButton
                     android:id="@+id/radio_10"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/et_bg"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:layout_marginTop="5dp"
                     android:text="R$ 10,00"
                     android:onClick="checkRadioButton"/>
 
                 <RadioButton
                     android:id="@+id/radio_25"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/et_bg"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:layout_marginTop="5dp"
                     android:text="R$ 25,00"
                     android:onClick="checkRadioButton"/>
 
                 <RadioButton
                     android:id="@+id/radio_50"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/et_bg"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:layout_marginTop="5dp"
                     android:text="R$ 50,00"
                     android:onClick="checkRadioButton"/>
 

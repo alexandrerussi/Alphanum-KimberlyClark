@@ -30,6 +30,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         //config toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarPerfil);
+        toolbar.setTitle("Minha conta");
         setSupportActionBar(toolbar);
 
         //Adicionando botao de voltar toolbar

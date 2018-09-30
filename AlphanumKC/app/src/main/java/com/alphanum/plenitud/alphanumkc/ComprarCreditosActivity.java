@@ -41,8 +41,8 @@ public class ComprarCreditosActivity extends AppCompatActivity {
 
         //config toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarComprarCreditos);
-        setSupportActionBar(toolbar);
         toolbar.setTitle("Compre créditos");
+        setSupportActionBar(toolbar);
 
         //Adicionando botao de voltar toolbar
         getSupportActionBar().setDisplayShowHomeEnabled(true);

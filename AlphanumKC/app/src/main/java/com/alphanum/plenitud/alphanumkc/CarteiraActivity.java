@@ -37,8 +37,8 @@ public class CarteiraActivity extends AppCompatActivity {
 
         //config toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarCarteira);
-        setSupportActionBar(toolbar);
         toolbar.setTitle("Minha carteira");
+        setSupportActionBar(toolbar);
 
         //Adicionando botao de voltar toolbar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
