@@ -49,6 +49,7 @@ import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
@@ -226,7 +227,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context,
                                                         @DrawableRes int vectorDrawableResourceId) {
-        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_box1);
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_box);
         background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
         vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
@@ -244,9 +245,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Recuperando e mostrando os Dispensers
         mMap = googleMap;
 
-
-
-        /*referenceFirebase.child(PATH_DISPENSER).addValueEventListener(new ValueEventListener() {
+        referenceFirebase.child(PATH_DISPENSER).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -255,11 +254,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Dispenser dispenser = data.getValue(Dispenser.class);
                     latitude = dispenser.getLatitude();
                     longitude = dispenser.getLongitude();
-                    qtdAtualMaps = dispenser.getQtdAtual();
+                    /*qtdAtualMaps = dispenser.getQtdAtual();
+                    String qtdAtual = Integer.toString(qtdAtualMaps);*/
 
                     mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
                             .title(data.getKey())
-                            .snippet(qtdAtualMaps.toString())
                             .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_box1)));
                 }
             }
@@ -269,7 +268,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
-*/
 
         //Recuperando e mostrando a posição do usuario
         mMapUser = googleMap;
@@ -280,10 +278,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 if (checkLocationPermission()) {
                     callConnection();
-                    LatLng localUser = new LatLng(user.getLatitudeUser(), user.getLongitudeUser());
-                    mMapUser.addMarker(new MarkerOptions().position(localUser));
+                    final LatLng localUser = new LatLng(user.getLatitudeUser(), user.getLongitudeUser());
+
+                    mMapUser.setMyLocationEnabled(true);
+                    mMapUser.setOnMyLocationClickListener(new GoogleMap.OnMyLocationClickListener() {
+                        @Override
+                        public void onMyLocationClick(@NonNull Location location) {
+                            mMapUser.moveCamera(CameraUpdateFactory.newLatLng(localUser));
+                        }
+                    });
                     mMapUser.moveCamera(CameraUpdateFactory.newLatLng(localUser));
                     mMapUser.moveCamera(CameraUpdateFactory.newLatLngZoom(localUser, 14));
+
                 } else {
                     requestPermission();
                 }
@@ -294,6 +300,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
+    }
+
+    public void moveCameraBotao(LatLng local){
+        mMapUser.moveCamera(CameraUpdateFactory.newLatLng(local));
     }
 
 

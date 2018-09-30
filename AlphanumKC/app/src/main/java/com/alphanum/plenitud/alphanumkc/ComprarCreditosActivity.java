@@ -81,28 +81,35 @@ public class ComprarCreditosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //Verificando saldo
-                userReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        usuario = dataSnapshot.getValue(Usuarios.class);
-                        Double saldo = usuario.getSaldo();
+                if (saldoNovo == 0.0){
+                    Toast.makeText(ComprarCreditosActivity.this, "Selecione o valor da recarga!", Toast.LENGTH_SHORT).show();
+                }
+                else {
 
-                        saldo += saldoNovo;
+                    //Verificando saldo
+                    userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            usuario = dataSnapshot.getValue(Usuarios.class);
+                            Double saldo = usuario.getSaldo();
 
-                        usuario.setSaldo(saldo);
+                            saldo += saldoNovo;
 
-                        userReference.child("saldo").setValue(usuario.getSaldo());
+                            usuario.setSaldo(saldo);
 
-                        Toast.makeText(ComprarCreditosActivity.this, "Créditos comprados!", Toast.LENGTH_SHORT).show();
-                        ComprarCreditosActivity.this.finish();
-                    }
+                            userReference.child("saldo").setValue(usuario.getSaldo());
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(ComprarCreditosActivity.this, "Créditos comprados!", Toast.LENGTH_SHORT).show();
+                            ComprarCreditosActivity.this.finish();
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
             }
         });
 

@@ -8,12 +8,12 @@
 
     <include
         android:id="@+id/toolBarPerfil"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar_no_elevation"/>
 
     <RelativeLayout
         android:id="@+id/perfil_tab"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="match_parent"
         android:visibility="visible"
         android:layout_below="@+id/toolBarPerfil">
 
@@ -42,16 +42,17 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/nome_perfil"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"/>
 
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/linlay_perfil_email"
+            android:id="@+id/linlay_perfil_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rellay_perfil_info"
-            android:orientation="horizontal">
+            android:layout_height="50dp"
+            android:layout_below="@id/rellay_perfil_info"
+            android:background="@drawable/background_title_perfil">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,19 +60,40 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
-                android:text="Email:"
+                android:text="DETALHES DE USUÁRIO"
+                android:textColor="#6f6f6f"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:fontFamily="sans-serif-light"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linlay_perfil_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linlay_perfil_title"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Email"
+                android:textSize="14sp"
+                android:textColor="#676767"
+                android:fontFamily="sans-serif-light" />
 
             <TextView
                 android:id="@+id/txt_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
                 android:text="@string/email_perfil"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-light"/>
 
         </LinearLayout>
 
@@ -80,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linlay_perfil_email"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,19 +110,20 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
-                android:text="Data de nascimento:"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="Data de nascimento"
+                android:textSize="14sp"
+                android:textColor="#676767"
+                android:fontFamily="sans-serif-light" />
 
             <TextView
                 android:id="@+id/txt_datanasc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
                 android:text="XX/XX/XXXX"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-light"/>
 
         </LinearLayout>
 
@@ -109,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linlay_perfil_datanasc"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -117,48 +140,20 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
-                android:text="Telefone:"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="Telefone"
+                android:textSize="14sp"
+                android:textColor="#676767"
+                android:fontFamily="sans-serif-light" />
 
             <TextView
                 android:id="@+id/txt_telefone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/telefone_perfil"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linlay_perfil_facebook"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linlay_perfil_telefone"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:text="Facebook:"
+                android:text="@string/telefone_perfil"
                 android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_facebook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/facebook_perfil"
-                android:textSize="16sp" />
+                android:fontFamily="sans-serif-light"/>
 
         </LinearLayout>
 
@@ -166,8 +161,8 @@
             android:id="@+id/linlay_perfil_pontos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linlay_perfil_facebook"
-            android:orientation="horizontal">
+            android:layout_below="@+id/linlay_perfil_telefone"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -175,19 +170,20 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
-                android:text="Pontos:"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="Saldo"
+                android:textSize="14sp"
+                android:textColor="#676767"
+                android:fontFamily="sans-serif-light" />
 
             <TextView
                 android:id="@+id/txt_pontos_usuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
                 android:text="200"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-light"/>
 
         </LinearLayout>
 

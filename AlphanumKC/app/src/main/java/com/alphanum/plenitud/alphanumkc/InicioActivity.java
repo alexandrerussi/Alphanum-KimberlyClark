@@ -240,7 +240,6 @@ public class InicioActivity extends AppCompatActivity {
         txt_email = (TextView) findViewById(R.id.txt_email);
         txt_datanasc = (TextView) findViewById(R.id.txt_datanasc);
         txt_telefone = (TextView) findViewById(R.id.txt_telefone);
-        txt_facebook = (TextView) findViewById(R.id.txt_facebook);
         txt_pontos_usuario = (TextView) findViewById(R.id.txt_pontos_usuario);
 
         //TODO Chamar campos do usuário do firebase

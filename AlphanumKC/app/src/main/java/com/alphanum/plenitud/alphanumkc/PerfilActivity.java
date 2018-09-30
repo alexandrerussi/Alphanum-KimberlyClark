@@ -49,7 +49,6 @@ public class PerfilActivity extends AppCompatActivity {
         txt_email = (TextView) findViewById(R.id.txt_email);
         txt_datanasc = (TextView) findViewById(R.id.txt_datanasc);
         txt_telefone = (TextView) findViewById(R.id.txt_telefone);
-        txt_facebook = (TextView) findViewById(R.id.txt_facebook);
         txt_pontos_usuario = (TextView) findViewById(R.id.txt_pontos_usuario);
 
         if (userFirebase != null){
@@ -63,7 +62,7 @@ public class PerfilActivity extends AppCompatActivity {
                     txt_email.setText(usuario.getEmailUser());
                     txt_datanasc.setText(usuario.getDataNascUser());
                     txt_telefone.setText(usuario.getTelefoneUser());
-                    txt_pontos_usuario.setText(usuario.getSaldo().toString());
+                    txt_pontos_usuario.setText("R$ " + usuario.getSaldo().toString());
 
                     /*RoundedImageView image = RoundedImageView.class.cast(findViewById(R.id.img_perfil));
                     image.setImageURI(usuario.getPhotoUser());*/

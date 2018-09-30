@@ -25,15 +25,18 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:text="Alexandre Russi"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:layout_marginTop="30dp"
-            android:textStyle="bold"/>
+            android:fontFamily="sans-serif-light"/>
 
         <TextView
             android:id="@+id/txt_nav_header_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="junior.russi2011@gmail.com"/>
+            android:text="junior.russi2011@gmail.com"
+            android:textSize="12sp"
+            android:textColor="#606060"
+            android:fontFamily="sans-serif-light"/>
     </LinearLayout>
 
 </LinearLayout>
