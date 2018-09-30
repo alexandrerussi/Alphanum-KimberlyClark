@@ -18,6 +18,19 @@
         android:background="@color/gradientStart">
 
         <TextView
+            android:id="@+id/txt_title_saldo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="24dp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/white"
+            android:text="SALDO ATUAL"
+            />
+
+        <TextView
             android:id="@+id/txt_saldo_carteira"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +39,7 @@
             android:text=""
             android:textSize="40sp"
             android:fontFamily="sans-serif-light"
-            />
+            android:layout_below="@+id/txt_title_saldo"/>
 
     </RelativeLayout>
 
