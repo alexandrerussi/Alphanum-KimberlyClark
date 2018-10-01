@@ -27,5 +27,8 @@
     <string name="email_ou_senha_erradas">Email e/ou senha erradas</string>
     <string name="operacao_cancelada">Operação Cancelada</string>
     <string name="insira_email_e_senha">Insira email e senha</string>
+    <string name="btn_entrar_main">Entrar</string>
+    <string name="edt_senha_main">Senha</string>
+    <string name="edt_email_main">Email</string>
 
 </resources>

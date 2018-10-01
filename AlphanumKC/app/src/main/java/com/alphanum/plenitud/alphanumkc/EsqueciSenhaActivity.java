@@ -2,6 +2,7 @@ package com.alphanum.plenitud.alphanumkc;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,10 +18,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
+import me.dm7.barcodescanner.core.ViewFinderView;
+
 public class EsqueciSenhaActivity extends AppCompatActivity {
 
     EditText edtEmailEsqueciSenha;
-    Button btnEnviarEsqueciSenha, btnVoltarEsqueciSenha;
     FirebaseAuth autenticacao;
 
     @Override
@@ -31,33 +33,21 @@ public class EsqueciSenhaActivity extends AppCompatActivity {
         //IMPORTANDO EDITTEXT
         edtEmailEsqueciSenha = (EditText) findViewById(R.id.edtEmailEsqueciSenha);
 
-        //IMPORTANDO BOTOES
-        btnEnviarEsqueciSenha = (Button) findViewById(R.id.btnEnviarEsqueciSenha);
-        btnVoltarEsqueciSenha = (Button) findViewById(R.id.btnVoltarEsqueciSenha);
+    }
 
-        //SETANDO CLICKS BOTOES
-
-        btnEnviarEsqueciSenha.setOnClickListener(new View.OnClickListener() {
+    public void enviarEsqueciSenha(View view){
+        resetSenha();
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
-                resetSenha();
-
-                edtEmailEsqueciSenha.setText("");
-
+            public void run() {
                 retornoInicio(EsqueciSenhaActivity.this, MainActivity.class);
-
-
             }
-        });
+        }, 2000);
 
-        btnVoltarEsqueciSenha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(EsqueciSenhaActivity.this, MainActivity.class));
-                finish();
-            }
-        });
+    }
 
+    public void voltarEsqueciSenha(View view){
+        retornoInicio(EsqueciSenhaActivity.this, MainActivity.class);
     }
 
     private void resetSenha() {
@@ -90,7 +80,6 @@ public class EsqueciSenhaActivity extends AppCompatActivity {
     }
 
     private void retornoInicio(Context packageContext, Class<?> cls) {
-
         Intent i = new Intent(packageContext, cls);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);

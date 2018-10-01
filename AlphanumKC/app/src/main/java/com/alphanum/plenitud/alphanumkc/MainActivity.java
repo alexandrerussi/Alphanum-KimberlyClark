@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
-    //Criando CallbackManager para Facebook JREM
     private CallbackManager mCallbackManager;
 
     //Para conectar com Google JREM
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         rellay1 = (RelativeLayout) findViewById(R.id.rellay1);
         rellay2 = (RelativeLayout) findViewById(R.id.rellay2);
 
-        handler.postDelayed(runnable, 2000); //2000 é o tempo do splashscreen
+        handler.postDelayed(runnable, 1500); //1500 é o tempo do splashscreen
 
         //IMPORTANDO EDITTEXTS
         edtEmailLogin = (EditText) findViewById(R.id.edtEmailLogin);
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         btnEntrar = (Button) findViewById(R.id.btnEntrar);
         btnCadastro = (Button) findViewById(R.id.btnCadastro);
         btnEsqueciSenha = (Button) findViewById(R.id.btnEsqueciSenha);
-        btnFacebookLayout = (Button) findViewById(R.id.btnFacebookLayout);
+
         btnGoogleLayout = (Button) findViewById(R.id.btnGoogleLayout);
 
 
@@ -134,33 +133,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         //Conectando com o Facebook JREM
         mCallbackManager = CallbackManager.Factory.create();
-        btnFacebook = (LoginButton) findViewById(R.id.btnFacebook);
-        btnFacebook.setReadPermissions(Arrays.asList("email","public_profile"));
-        btnFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                handleFacebookAcessToken(loginResult.getAccessToken());
-                }
-
-            @Override
-            public void onCancel() {
-               msgToast(R.string.operacao_cancelada);
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                msgToast(R.string.erro_no_login);
-            }
-        });
-
-        //Conectando ação do LoginButton no botao estilizado
-        btnFacebookLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnFacebook.performClick();
-            }
-        });
 
         //Login com Google JREM
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -172,11 +144,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-/*
-
-        //Conexão com Google JREM --FOI PARA O MÉTODO signIn()--
-        btnGoogle = (SignInButton) findViewById(R.id.btnGoogle);
-*/
 
         //Conectando ação do SignInButton no botao estilizado
         btnGoogleLayout.setOnClickListener(new View.OnClickListener() {
@@ -219,21 +186,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         startActivityForResult(intent, SIGN_IN_CODE);
     }
 
-    // Gera o token do usuario no Facebook JREM
-    private void handleFacebookAcessToken(AccessToken accessToken) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()){
-                    msgToast(R.string.erro_na_conexao);
-                }
-
-            }
-        });
-    }
-
-    //Tratamento de resultado Facebook JREM
+    //Tratamento de resultado Google JREM
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);

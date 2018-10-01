@@ -61,6 +61,7 @@
                     android:background="@drawable/btn_bg"
                     android:text="Enviar"
                     android:textAllCaps="true"
+                    android:onClick="enviarEsqueciSenha"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:fontFamily="sans-serif-light"/>
@@ -72,6 +73,7 @@
                     android:layout_height="45dp"
                     android:background="@drawable/btn_bg"
                     android:text="Voltar"
+                    android:onClick="voltarEsqueciSenha"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="15sp"
