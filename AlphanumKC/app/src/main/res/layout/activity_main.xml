@@ -54,7 +54,8 @@
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:background="@drawable/et_bg"
-                        android:text="@string/edt_email_main"
+                        android:hint="@string/edt_email_main"
+                        android:text=""
                         android:textColorHint="@color/white"
                         android:inputType="textEmailAddress"/>
 
@@ -77,7 +78,8 @@
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:background="@drawable/et_bg"
-                        android:text="@string/edt_senha_main"
+                        android:hint="@string/edt_senha_main"
+                        android:text=""
                         android:textColorHint="@color/white"
                         android:inputType="textPassword"/>
 
