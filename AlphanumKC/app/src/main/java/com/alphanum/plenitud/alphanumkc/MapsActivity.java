@@ -155,6 +155,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+
     @Override
     protected void onPause() {
         super.onPause();
