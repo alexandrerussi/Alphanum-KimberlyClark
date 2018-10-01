@@ -69,7 +69,8 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".QRCodeActivity" />
         <activity android:name=".CarteiraActivity" />
-        <activity android:name=".ComprarCreditosActivity"></activity>
+        <activity android:name=".ComprarCreditosActivity" />
+        <activity android:name=".MomentoHuggiesActivity"></activity>
     </application>
 
 </manifest>

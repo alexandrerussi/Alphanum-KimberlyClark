@@ -46,8 +46,9 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="@drawable/btn_circle_home"
-                android:src="@drawable/ic_menu_camera"
+                android:src="@drawable/ic_camera_momento"
                 android:tint="@color/cinza_escuro"
+                android:onClick="abrirMomentoHuggies"
                 android:fontFamily="sans-serif-light"/>
 
         </LinearLayout>

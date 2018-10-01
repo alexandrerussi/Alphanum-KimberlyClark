@@ -25,6 +25,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
@@ -108,7 +111,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         toolbar.bringToFront();
 
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
@@ -154,7 +156,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             startLocationUpdate();
         }
     }
-
 
     @Override
     protected void onPause() {
@@ -417,6 +418,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void abrirQR(View view) {
         Intent qrcode = new Intent(MapsActivity.this, QRCodeActivity.class);
         startActivity(qrcode);
+    }
+
+    public void abrirMomentoHuggies(View view) {
+        Intent momento = new Intent(MapsActivity.this, MomentoHuggiesActivity.class);
+        startActivity(momento);
     }
 
     private void msgToast(String s) {
