@@ -231,11 +231,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Dispenser dispenser = data.getValue(Dispenser.class);
                     latitude = dispenser.getLatitude();
                     longitude = dispenser.getLongitude();
-                    /*qtdAtualMaps = dispenser.getQtdAtual();
-                    String qtdAtual = Integer.toString(qtdAtualMaps);*/
 
                     mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
-                            .title(data.getKey())
+                            .title("R$ 1,00 por cada fralda")
                             .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_box1)));
                 }
             }
