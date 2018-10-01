@@ -36,14 +36,10 @@ public class PerfilActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        //QTD PONTOS USUARIO
-        Integer pontos = 201;//TODO chamar qtd de pontos do usuario do firebase
-
         //PERFIL
         //Arredondando e chamando img
         RoundedImageView image = RoundedImageView.class.cast(findViewById(R.id.img_perfil));
-        image.setImageResource(R.mipmap.ic_launcher);//TODO Chamar imagem do usuario no firebase
+        image.setImageResource(R.mipmap.ic_launcher);
 
         txt_nome = (TextView) findViewById(R.id.txt_nome);
         txt_email = (TextView) findViewById(R.id.txt_email);
@@ -63,9 +59,6 @@ public class PerfilActivity extends AppCompatActivity {
                     txt_datanasc.setText(usuario.getDataNascUser());
                     txt_telefone.setText(usuario.getTelefoneUser());
                     txt_pontos_usuario.setText("R$ " + usuario.getSaldo().toString());
-
-                    /*RoundedImageView image = RoundedImageView.class.cast(findViewById(R.id.img_perfil));
-                    image.setImageURI(usuario.getPhotoUser());*/
 
                 }
                 @Override

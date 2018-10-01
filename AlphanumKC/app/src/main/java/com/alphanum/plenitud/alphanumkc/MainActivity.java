@@ -172,9 +172,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+/*
 
         //Conexão com Google JREM --FOI PARA O MÉTODO signIn()--
         btnGoogle = (SignInButton) findViewById(R.id.btnGoogle);
+*/
 
         //Conectando ação do SignInButton no botao estilizado
         btnGoogleLayout.setOnClickListener(new View.OnClickListener() {
@@ -250,11 +252,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             if(result.isSuccess()){
                 firebaseAuthWithGoogle(result.getSignInAccount());
                 contaGoogle = result.getSignInAccount();
-
-
-
-
-
             }else{
                 msgToast(R.string.erro_na_conexao);
             }
@@ -280,7 +277,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     usuario.setLatitudeUser(0.0);
                     usuario.setLongitudeUser(0.0);
                     usuario.setSaldo(0.0);
-                    //usuario.setPhotoUser(contaGoogle.getPhotoUrl());
                     usuario.salvar();
 
 
