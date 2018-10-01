@@ -25,9 +25,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
@@ -35,7 +32,6 @@ import android.view.View;
 import com.alphanum.plenitud.alphanumkc.config.ConfiguracaoFirebase;
 import com.alphanum.plenitud.alphanumkc.model.Dispenser;
 import com.alphanum.plenitud.alphanumkc.model.Usuarios;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -190,7 +186,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             case R.id.nav_loggout:
                 FirebaseAuth.getInstance().signOut();
-                LoginManager.getInstance().logOut();
                 Intent sair = new Intent(MapsActivity.this, MainActivity.class);
                 sair.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(sair);

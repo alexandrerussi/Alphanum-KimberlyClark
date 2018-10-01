@@ -79,9 +79,6 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
             if (checkPermission()) {
-                /*Toast.makeText(getApplicationContext(), "Permission already granted", Toast.LENGTH_LONG).show();*/
-
-
             } else {
                 requestPermission();
             }
@@ -163,6 +160,8 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                 saldo = usuario.getSaldo();
 
                 if (saldo == 0.0) {
+                    Intent sair = new Intent(QRCodeActivity.this, ComprarCreditosActivity.class);
+                    startActivity(sair);
                     Toast.makeText(QRCodeActivity.this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
                 } else {
 
@@ -182,7 +181,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                                             if (teste == 0) {
                                                 msgToast("Produto pago");
 
-                                                Double gasto = 5.0;
+                                                Double gasto = 1.0;
 
                                                 saldo -= gasto;
                                                 usuario.setSaldo(saldo);
@@ -201,7 +200,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                                             }
                                             break;
                                         default:
-                                            msgToast("Deu merda");
+                                            msgToast("Problemas na rede");
                                     }
 
                                 } catch (Exception ex) {
@@ -302,6 +301,8 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                 saldo = usuario.getSaldo();
 
                 if (saldo == 0.0) {
+                    Intent sair = new Intent(QRCodeActivity.this, ComprarCreditosActivity.class);
+                    startActivity(sair);
                     Toast.makeText(QRCodeActivity.this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
                 } else {
 
@@ -325,7 +326,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                                             if (teste2 == 0) {
                                                 msgToast("Produto pago");
 
-                                                Double gasto = 5.0;
+                                                Double gasto = 1.0;
 
                                                 saldo -= gasto;
                                                 usuario.setSaldo(saldo);
@@ -344,7 +345,7 @@ public class QRCodeActivity extends AppCompatActivity implements ZXingScannerVie
                                             }
                                             break;
                                         default:
-                                            msgToast("Deu merda");
+                                            msgToast("Problemas na rede");
                                     }
 
                                 } catch (Exception ex) {

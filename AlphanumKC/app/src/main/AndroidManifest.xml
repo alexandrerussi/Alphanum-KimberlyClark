@@ -7,7 +7,6 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -17,23 +16,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CadastroActivity" />
-        <activity android:name=".EsqueciSenhaActivity" />
-        <activity android:name=".CadastroSenhaActivity" />
-        <activity android:name=".InicioActivity" />
+        <activity android:name=".CadastroActivity"
+            android:screenOrientation="portrait"/>
 
-        <meta-data
+        <activity android:name=".EsqueciSenhaActivity"
+            android:screenOrientation="portrait"/>
+
+       <!-- <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id" />-->
 
-        <activity
+       <!-- <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
@@ -48,29 +51,27 @@
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
-        </activity>
-        <activity android:name=".CadastroDispenserActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".PerfilActivity" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
+        </activity>-->
+
+        <activity android:name=".PerfilActivity"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".QRCodeActivity" />
-        <activity android:name=".CarteiraActivity" />
-        <activity android:name=".ComprarCreditosActivity" />
-        <activity android:name=".MomentoHuggiesActivity"></activity>
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".QRCodeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CarteiraActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ComprarCreditosActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MomentoHuggiesActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

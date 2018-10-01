@@ -58,19 +58,19 @@ public class ComprarCreditosActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.radio_5:
-                        saldoNovo = 5.0;
+                        saldoNovo = 5.00;
                         break;
 
                     case R.id.radio_10:
-                        saldoNovo = 10.0;
+                        saldoNovo = 10.00;
                         break;
 
                     case R.id.radio_25:
-                        saldoNovo = 25.0;
+                        saldoNovo = 25.00;
                         break;
 
                     case R.id.radio_50:
-                        saldoNovo = 50.0;
+                        saldoNovo = 50.00;
                         break;
                 }
             }
@@ -130,6 +130,5 @@ public class ComprarCreditosActivity extends AppCompatActivity {
         int radioId = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
 
-        //Toast.makeText(this, "Selected Radio" + radioButton.getText(), Toast.LENGTH_SHORT).show();
     }
 }
