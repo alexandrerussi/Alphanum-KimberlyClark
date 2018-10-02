@@ -217,6 +217,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         mMapUser = googleMap;
 
+        mMap.setPadding(0,0,0,200);
+
         referenceFirebase.child(PATH_DISPENSER).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -433,8 +435,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void setSettingsMap() {
         try {
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.getUiSettings().setZoomControlsEnabled(false);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
             //Eventos
