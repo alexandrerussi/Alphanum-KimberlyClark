@@ -32,6 +32,7 @@ dependencies {
     api 'com.google.firebase:firebase-database:15.0.0'
     api 'com.google.firebase:firebase-firestore:15.0.0'
     api 'com.google.firebase:firebase-auth:15.0.0'
+    api 'com.google.firebase:firebase-messaging:17.3.0'
     implementation 'com.facebook.android:facebook-login:[4,5)'
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     api 'com.google.firebase:firebase-ml-vision:17.0.0'
@@ -41,5 +42,6 @@ dependencies {
     implementation 'me.dm7.barcodescanner:zxing:1.9.8'
     implementation 'com.github.rtoshiro.mflibrary:mflibrary:1.0.0'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
+
 }
 apply plugin: 'com.google.gms.google-services'
