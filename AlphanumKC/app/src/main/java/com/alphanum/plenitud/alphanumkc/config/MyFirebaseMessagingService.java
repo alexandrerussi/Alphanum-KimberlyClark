@@ -15,19 +15,10 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    public static final String TAG = "Noticias";
-
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        /*String from = remoteMessage.getFrom();
-        Log.d(TAG, "Mensaje recibida de: "+ from);
-
-        if (remoteMessage.getNotification() != null){
-            Log.d(TAG, "Notificacion: " + remoteMessage.getNotification().getBody());
-        }
-*/
         if (remoteMessage.getNotification() != null) {
             mostrarNotificacion(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
 
